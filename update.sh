@@ -41,6 +41,7 @@ cp ./modules/shared/.editorconfig .editorconfig
 cp ./modules/shared/.prettierrc .prettierrc
 cp ./modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 cp -Rf ./modules/packer/files/ .
+chmod 755 .husky/pre-commit
 jq -s '.[0] * .[1]' template.json ./modules/docs/common.json > __bp.json | true
 npx -y @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-contributing.md --output CONTRIBUTING.md | true
 npx -y @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-readme.md | true
