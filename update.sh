@@ -48,7 +48,7 @@ cp ./modules/shared/.prettierrc .prettierrc
 cp ./modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 cp -Rf ./modules/packer/files/ .
 jq -s '.[0] * .[1]' template.json ./modules/docs/common.json > __bp.json | true
-npx @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-contributing.md --output CONTRIBUTING.md | true
-npx @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-readme.md | true
+npx -y @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-contributing.md --output CONTRIBUTING.md | true
+npx -y @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-readme.md | true
 rm __bp.json
 echo "*** Finished scaffolding repository ***"
