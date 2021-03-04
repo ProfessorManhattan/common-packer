@@ -48,4 +48,4 @@ jq -s '.[0] * .[1]' template.json ./modules/docs/common.json > __bp.json | true
 npx -y @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-contributing.md --output CONTRIBUTING.md | true
 npx -y @appnest/readme generate --config __bp.json --input ./modules/docs/blueprint-readme.md | true
 rm __bp.json
-echo "*** Finished scaffolding repository ***"
+echo "Done updating meta files and generating documentation"
