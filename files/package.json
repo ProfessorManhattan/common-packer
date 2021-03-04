@@ -43,6 +43,14 @@
       "path": "cz-conventional-changelog"
     }
   },
+  "lint-staged": {
+    "*.{json}": [
+      "prettier --write"
+    ],
+    "scripts/desktop.custom.sh": [
+      "prettier --write"
+    ]
+  },
   "scripts-info": {
     "build": "Build all of the images",
     "build:hyperv": "Build a Hyper-V image",
