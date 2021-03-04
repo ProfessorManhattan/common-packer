@@ -51,6 +51,7 @@
       "prettier --write"
     ]
   },
+  "prettier": "@megabytelabs/prettier-config",
   "scripts-info": {
     "build": "Build all of the images",
     "build:hyperv": "Build a Hyper-V image",
