@@ -14,8 +14,7 @@ if [ ! -d "./modules/bento" ]; then
   cd ..
 else
   cd modules/bento
-  git checkout master
-  git pull origin master
+  git checkout master && git pull origin master
   cd ../..
 fi
 if [ ! -d "./modules/docs" ]; then
@@ -24,8 +23,7 @@ if [ ! -d "./modules/docs" ]; then
   cd ..
 else
   cd modules/docs
-  git checkout master
-  git pull origin master
+  git checkout master && git pull origin master
   cd ../..
 fi
 if [ ! -d "./modules/shared" ]; then
@@ -34,8 +32,7 @@ if [ ! -d "./modules/shared" ]; then
   cd ..
 else
   cd modules/shared
-  git checkout master
-  git pull origin master
+  git checkout master && git pull origin master
   cd ../..
 fi
 cp -rf ./modules/shared/.github .
