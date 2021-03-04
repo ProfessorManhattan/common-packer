@@ -6,8 +6,6 @@
 
 set -e
 
-git submodule update --init --recursive
-
 if [ ! -d "./modules/bento" ]; then
   cd modules
   git submodule add -b master https://github.com/chef/bento.git
