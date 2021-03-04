@@ -38,7 +38,6 @@ cp -rf ./modules/shared/.gitlab .
 cp -rf ./modules/shared/.vscode .
 cp ./modules/shared/.cspell.json .cspell.json
 cp ./modules/shared/.editorconfig .editorconfig
-cp ./modules/shared/.mdlrc .mdlrc
 cp ./modules/shared/.prettierrc .prettierrc
 cp ./modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 cp -Rf ./modules/packer/files/ .
