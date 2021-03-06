@@ -38,6 +38,7 @@ cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 
 # Copy files over from the Packer shared submodule
 if [ -f ./package.json ]; then
+  # Retain package.json "name", "description", and "version"
   PACKAGE_NAME=$(cat package.json | jq '.name')
   PACKAGE_DESCRIPTION=$(cat package.json | jq '.description')
   PACKAGE_VERSION=$(cat package.json | jq '.version')
