@@ -37,10 +37,18 @@ cp ./.modules/shared/.editorconfig .editorconfig
 cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 
 # Copy files over from the Packer shared submodule
-PACKAGE_VERSION=$(cat package.json | jq '.version')
-cp -Rf ./.modules/packer/files/ .
-jq --arg a ${PACKAGE_VERSION} '.version = $a' package.json > __jq.json && mv __jq.json package.json
-npx prettier-package-json --write
+if [ -f ./package.json ]; then
+  PACKAGE_NAME=$(cat package.json | jq '.name')
+  PACKAGE_DESCRIPTION=$(cat package.json | jq '.description')
+  PACKAGE_VERSION=$(cat package.json | jq '.version')
+  cp -Rf ./.modules/packer/files/ .
+  jq --arg a $PACKAGE_NAME '.name = $a' package.json > __jq.json && mv __jq.json package.json
+  jq --arg a $PACKAGE_DESCRIPTION '.description = $a' package.json > __jq.json && mv __jq.json package.json
+  jq --arg a $PACKAGE_VERSION '.version = $a' package.json > __jq.json && mv __jq.json package.json
+  npx prettier-package-json --write
+else
+  cp -Rf ./.modules/packer/files/ .
+fi
 
 # Ensure the pre-commit hook is executable
 chmod 755 .husky/pre-commit
