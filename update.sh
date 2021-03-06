@@ -42,6 +42,8 @@ if [ -f ./package.json ]; then
   PACKAGE_NAME=$(cat package.json | jq '.name')
   PACKAGE_DESCRIPTION=$(cat package.json | jq '.description')
   PACKAGE_VERSION=$(cat package.json | jq '.version')
+  echo $PACKAGE_DESCRIPTION
+  echo $PACKAGE_VERSION
   cp -Rf ./.modules/packer/files/ .
   jq --arg a $PACKAGE_NAME '.name = $a' package.json > __jq.json && mv __jq.json package.json
   jq --arg a $PACKAGE_DESCRIPTION '.description = $a' package.json > __jq.json && mv __jq.json package.json
