@@ -39,7 +39,7 @@ cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 # Copy files over from the Packer shared submodule
 PACKAGE_VERSION=$(cat package.json | jq '.version')
 cp -Rf ./.modules/packer/files/ .
-jq --arg a "${PACKAGE_VERSION}" '.version = $a' package.json > __jq.json && mv __jq.json package.json
+jq --arg a ${PACKAGE_VERSION} '.version = $a' package.json > __jq.json && mv __jq.json package.json
 npx prettier-package-json --write
 
 # Ensure the pre-commit hook is executable
