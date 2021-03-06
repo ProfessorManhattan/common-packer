@@ -44,7 +44,7 @@ if [ -f ./package.json ]; then
   PACKAGE_VERSION=$(cat package.json | jq '.version')
   cp -Rf ./.modules/packer/files/ .
   jq --arg a ${PACKAGE_DESCRIPTION//\/} '.description = $a' package.json > __jq.json && mv __jq.json package.json
-  jq --arg a ${{PACKAGE_NAME//\/} '.name = $a' package.json > __jq.json && mv __jq.json package.json
+  jq --arg a ${PACKAGE_NAME//\/} '.name = $a' package.json > __jq.json && mv __jq.json package.json
   jq --arg a ${PACKAGE_VERSION//\/} '.version = $a' package.json > __jq.json && mv __jq.json package.json
   npx prettier-package-json --write
 else
