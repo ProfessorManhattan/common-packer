@@ -28,28 +28,36 @@ else
   git checkout master && git pull origin master
   cd ../..
 fi
+if [ ! -d "./.modules/windows" ]; then
+  if [ -f ./Autounattend.xml ]; then
+    git submodule add -b master https://github.com/StefanScherer/packer-windows windows
+  fi
+else
+  if [ -f ./Autounattend.xml ]; then
+    cd ./.modules/windows
+    git checkout master && git pull origin master
+    cd ../..
+  fi
+fi
 
 # Copy over files from the shared submodule
 cp -Rf ./.modules/shared/.github .
 cp -Rf ./.modules/shared/.gitlab .
 cp -Rf ./.modules/shared/.vscode .
+cp -Rf ./.modules/packer/files/ .
 cp ./.modules/shared/.editorconfig .editorconfig
 cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 
 # Copy files over from the Packer shared submodule
-if [ -f ./package.json ]; then
-  # Retain package.json "name", "description", and "version"
-  PACKAGE_DESCRIPTION=$(cat package.json | jq '.description')
-  PACKAGE_NAME=$(cat package.json | jq '.name' | cut -d '"' -f 2)
-  PACKAGE_VERSION=$(cat package.json | jq '.version' | cut -d '"' -f 2)
-  cp -Rf ./.modules/packer/files/ .
-  jq --arg a ${PACKAGE_DESCRIPTION//\/} '.description = $a' package.json > __jq.json && mv __jq.json package.json
-  jq --arg a ${PACKAGE_NAME//\/} '.name = $a' package.json > __jq.json && mv __jq.json package.json
-  jq --arg a ${PACKAGE_VERSION//\/} '.version = $a' package.json > __jq.json && mv __jq.json package.json
-  npx prettier-package-json --write
-else
-  cp -Rf ./.modules/packer/files/ .
-fi
+# Retain package.json "name", "description", and "version"
+PACKAGE_DESCRIPTION=$(cat package.json | jq '.description')
+PACKAGE_NAME=$(cat package.json | jq '.name' | cut -d '"' -f 2)
+PACKAGE_VERSION=$(cat package.json | jq '.version' | cut -d '"' -f 2)
+cp -Rf ./.modules/packer/files/ .
+jq --arg a ${PACKAGE_DESCRIPTION//\/} '.description = $a' package.json > __jq.json && mv __jq.json package.json
+jq --arg a ${PACKAGE_NAME//\/} '.name = $a' package.json > __jq.json && mv __jq.json package.json
+jq --arg a ${PACKAGE_VERSION//\/} '.version = $a' package.json > __jq.json && mv __jq.json package.json
+npx prettier-package-json --write
 
 # Ensure the pre-commit hook is executable
 chmod 755 .husky/pre-commit
