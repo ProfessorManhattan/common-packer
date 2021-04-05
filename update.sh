@@ -30,12 +30,12 @@ else
 fi
 if [ ! -d "./.modules/windows" ]; then
   if [ -f ./Autounattend.xml ]; then
-    git submodule add -b master https://github.com/StefanScherer/packer-windows ./.modules/windows
+    git submodule add -b main https://github.com/StefanScherer/packer-windows ./.modules/windows
   fi
 else
   if [ -f ./Autounattend.xml ]; then
     cd ./.modules/windows
-    git checkout master && git pull origin master
+    git checkout main && git pull origin main
     cd ../..
   fi
 fi
