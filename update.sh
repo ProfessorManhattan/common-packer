@@ -28,12 +28,10 @@ else
   git checkout master && git pull origin master
   cd ../..
 fi
-if [ ! -d "./.modules/windows" ]; then
-  if [ -f ./Autounattend.xml ]; then
+if [ -f ./Autounattend.xml ]; then
+  if [ ! -d "./.modules/windows" ]; then
     git submodule add -b main https://github.com/StefanScherer/packer-windows ./.modules/windows
-  fi
-else
-  if [ -f ./Autounattend.xml ]; then
+  else
     cd ./.modules/windows
     git checkout main && git pull origin main
     cd ../..
