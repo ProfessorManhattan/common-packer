@@ -3,4 +3,4 @@ stages:
   - lint
 
 include:
-  - remote: https://gitlab.com/megabyte-space/gitlab-ci-templates/-/raw/master/packer-validate.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-space/ci/gitlab-ci-templates/-/raw/master/packer-validate.gitlab-ci.yml
