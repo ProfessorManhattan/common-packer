@@ -68,6 +68,8 @@ rm __bp.json
 
 # Remove formatting error
 sed -i .bak 's/](#-/](#/g' README.md
+rm README.md.bak | true
 sed -i .bak 's/](#-/](#/g' CONTRIBUTING.md
+rm CONTRIBUTING.md.bak | true
 
 echo "*** Done updating meta files and generating documentation ***"
