@@ -72,4 +72,7 @@ rm README.md.bak | true
 sed -i .bak 's/](#-/](#/g' CONTRIBUTING.md
 rm CONTRIBUTING.md.bak | true
 
+# Ensure .blueprint.json is formatted properly
+npx prettier --write .blueprint.json
+
 echo "*** Done updating meta files and generating documentation ***"
