@@ -2,6 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
+echo "Running npm test"
 npm test
 echo "Checking for spelling errors"
 files=$(git diff --cached --name-only)
