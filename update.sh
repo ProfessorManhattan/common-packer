@@ -35,5 +35,8 @@ copy_project_files_and_generate_package_json
 generate_documentation
 misc_fixes
 
+# Warn user about missing virtualization platforms
+missing_virtualization_platforms_notice
+
 # Ensure .start.sh is the latest version
 cp ./.modules/$REPO_TYPE/.start.sh .start.sh
