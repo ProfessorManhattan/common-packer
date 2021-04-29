@@ -5,7 +5,9 @@
 # documentation.
 
 set -e
-REPO_TYPE=packer
+
+curl -sL https://git.io/_has | bash -s docker git jq node npm wget
+export REPO_TYPE=packer
 git submodule update --init --recursive
 if [ ! -f "./.modules/${REPO_TYPE}/update.sh" ]; then
   git submodule add -b master https://gitlab.com/megabyte-space/common/$REPO_TYPE.git ./.modules/$REPO_TYPE
