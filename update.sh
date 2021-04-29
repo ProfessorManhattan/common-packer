@@ -38,5 +38,5 @@ misc_fixes
 # Warn user about missing virtualization platforms
 missing_virtualization_platforms_notice
 
-# Ensure .start.sh is the latest version
-cp ./.modules/$REPO_TYPE/.start.sh .start.sh
+# Ensure .start.sh is the latest version # TODO: Figure out how to make this work
+# cp ./.modules/$REPO_TYPE/.start.sh .start.sh
