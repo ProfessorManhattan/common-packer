@@ -1,26 +1,12 @@
 #!/bin/bash
 
-# This script performs maintenance on this repository. It ensures git submodules are
+# This script performs maintenance on Packer repositories. It ensures git submodules are
 # installed and then copies over base files from the modules. It also generates the
-# documentation.
+# documentation and performs other miscellaneous tasks.
 
-set -ex
+set -e
 
-# Ensure submodules are present and up-to-date
-if [ ! -d "./.modules/bento" ]; then
-  git submodule add -b master https://github.com/chef/bento.git ./.modules/bento
-else
-  cd ./.modules/bento
-  git checkout master && git pull origin master
-  cd ../..
-fi
-if [ ! -d "./.modules/docs" ]; then
-  git submodule add -b master https://gitlab.com/megabyte-space/documentation/packer.git ./.modules/docs
-else
-  cd ./.modules/docs
-  git checkout master && git pull origin master
-  cd ../..
-fi
+# Ensure shared submodule is present
 if [ ! -d "./.modules/shared" ]; then
   git submodule add -b master https://gitlab.com/megabyte-space/common/shared.git ./.modules/shared
 else
@@ -28,15 +14,13 @@ else
   git checkout master && git pull origin master
   cd ../..
 fi
-if [ -f ./Autounattend.xml ]; then
-  if [ ! -d "./.modules/windows" ]; then
-    git submodule add -b main https://github.com/StefanScherer/packer-windows ./.modules/windows
-  else
-    cd ./.modules/windows
-    git checkout main && git pull origin main
-    cd ../..
-  fi
-fi
+
+source "./.modules/shared/update.lib.sh"
+
+# Ensure appropriate submodules are present
+ensure_project_docs_submodule_latest
+ensure_bento_submodule_latest
+ensure_windows_submodule_latest
 
 # Copy over files from the shared submodule
 cp -Rf ./.modules/shared/.github .
@@ -46,33 +30,10 @@ cp -Rf ./.modules/packer/files/ .
 cp ./.modules/shared/.editorconfig .editorconfig
 cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 
-# Copy files over from the Packer shared submodule
-# Retain package.json "name", "description", and "version"
-PACKAGE_DESCRIPTION=$(cat package.json | jq '.description')
-PACKAGE_NAME=$(cat package.json | jq '.name' | cut -d '"' -f 2)
-PACKAGE_VERSION=$(cat package.json | jq '.version' | cut -d '"' -f 2)
-cp -Rf ./.modules/packer/files/ .
-jq --arg a ${PACKAGE_DESCRIPTION//\/} '.description = $a' package.json > __jq.json && mv __jq.json package.json
-jq --arg a ${PACKAGE_NAME//\/} '.name = $a' package.json > __jq.json && mv __jq.json package.json
-jq --arg a ${PACKAGE_VERSION//\/} '.version = $a' package.json > __jq.json && mv __jq.json package.json
-npx prettier-package-json --write
+# Apply updates from shared files
+copy_project_files_and_generate_package_json
+generate_documentation
+misc_fixes
 
-# Ensure the pre-commit hook is executable
-chmod 755 .husky/pre-commit
-
-# Generate the documentation
-jq -s '.[0] * .[1]' template.json ./.modules/docs/common.json > __bp.json | true
-npx -y @appnest/readme generate --config __bp.json --input ./.modules/docs/blueprint-contributing.md --output CONTRIBUTING.md | true
-npx -y @appnest/readme generate --config __bp.json --input ./.modules/docs/blueprint-readme.md | true
-rm __bp.json
-
-# Remove formatting error
-sed -i .bak 's/](#-/](#/g' README.md
-rm README.md.bak | true
-sed -i .bak 's/](#-/](#/g' CONTRIBUTING.md
-rm CONTRIBUTING.md.bak | true
-
-# Ensure .blueprint.json is formatted properly
-npx prettier --write .blueprint.json
-
-echo "*** Done updating meta files and generating documentation ***"
+# Ensure .start.sh is the latest version
+cp ./.modules/$REPO_TYPE/.start.sh .start.sh

@@ -1,9 +1,13 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+source "./.modules/shared/update.lib.sh"
+
+log "Running lint-staged"
 npx lint-staged
-echo "Running npm test"
+log "Running npm test"
 npm test
-echo "Checking for spelling errors"
+log "Checking for spelling errors"
 files=$(git diff --cached --name-only)
-npx cspell --no-summary --config ./.modules/shared/.cspell.json $files || echo "Review the list of possible misspelled words above and correct anything that needs changing."
+npx cspell --no-summary --config ./.modules/shared/.cspell.json $files || warn "Possible spelling errors were found. Review the list of possible misspelled words above and correct anything that needs changing."
+success "Successfully passed all validation checks"
