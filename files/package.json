@@ -14,6 +14,7 @@
     "commit": "git-cz",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"{scripts/*.custom.sh,*.json}\" --write",
+    "fix:shellcheck": "shellcheck -f diff scripts/*.custom.sh | git apply",
     "info": "npm-scripts-info",
     "postinstall": "husky install && bash .start.sh",
     "launch": "vagrant up",
@@ -80,7 +81,7 @@
     "launch": "Runs 'vagrant up' to automatically spin up the VM",
     "prepare-release": "Updates the CHANGELOG with commits made using 'npm run commit' and updates the project to be ready for release",
     "test": "Validates the Packer configuration file (i.e. template.json) and performs some other linting",
-    "update": "Runs .update.sh to automatically update meta files and documentation",
+    "update": "Runs .start.sh to automatically update meta files and documentation",
     "version": "Used by 'npm run prepare-release' to update the CHANGELOG and app version"
   }
 }

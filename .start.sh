@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# This script performs maintenance on this repository. It ensures git submodules are
+# This script performs maintenance on Packer repositories. It ensures git submodules are
 # installed and then copies over base files from the modules. It also generates the
-# documentation.
+# documentation and performs other miscellaneous tasks.
 
 set -e
 
