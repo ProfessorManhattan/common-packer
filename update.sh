@@ -4,7 +4,7 @@
 # installed and then copies over base files from the modules. It also generates the
 # documentation and performs other miscellaneous tasks.
 
-set -ex
+set -e
 
 # Ensure shared submodule is present
 if [ ! -d "./.modules/shared" ]; then
