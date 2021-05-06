@@ -17,6 +17,10 @@ fi
 
 source "./.modules/shared/update.lib.sh"
 
+# Ensure dependencies are installed
+ensure_node_installed
+ensure_jq_installed
+
 # Ensure appropriate submodules are present
 ensure_project_docs_submodule_latest
 ensure_bento_submodule_latest
