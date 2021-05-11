@@ -11,6 +11,7 @@ if [ ! -d "./.modules/shared" ]; then
   git submodule add -b master https://gitlab.com/megabyte-space/common/shared.git ./.modules/shared
 else
   cd ./.modules/shared
+  git config pull.rebase true
   git checkout master && git pull origin master
   cd ../..
 fi
