@@ -16,14 +16,14 @@
     "fix:prettier": "prettier \"{scripts/*.custom.sh,*.json}\" --write",
     "fix:shellcheck": "shellcheck -f diff scripts/*.custom.sh | git apply",
     "info": "npm-scripts-info",
-    "postinstall": "husky install && bash .start.sh",
+    "postinstall": "husky install && run-s update",
     "launch": "vagrant up",
     "prepare-release": "run-s update test version",
     "test": "run-s test:*",
     "test:packer": "packer validate template.json",
     "test:prettier": "prettier \"{scripts/*.custom.sh,*.json}\" --list-different",
     "test:shellcheck": "shellcheck scripts/*.custom.sh",
-    "update": "bash .start.sh",
+    "update": "bash .start.sh && cp ./.modules/packer/.start.sh .start.sh",
     "version": "standard-version --no-verify"
   },
   "config": {
