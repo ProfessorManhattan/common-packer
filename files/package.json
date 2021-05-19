@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@megabytelabs/prettier-config": "^1.2.893",
+    "@prettier/plugin-xml": "^0.13.1",
     "consola": "^2.15.3",
     "cspell": "^5.4.0",
     "cz-conventional-changelog": "^3.3.0",
