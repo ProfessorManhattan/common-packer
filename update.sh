@@ -32,7 +32,6 @@ ensure_windows_submodule_latest
 cp -Rf ./.modules/shared/.github .
 cp -Rf ./.modules/shared/.gitlab .
 cp -Rf ./.modules/shared/.vscode .
-cp -Rf ./.modules/packer/files/. .
 cp ./.modules/shared/.editorconfig .editorconfig
 cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 
