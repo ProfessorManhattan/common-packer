@@ -39,6 +39,7 @@ cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 copy_project_files_and_generate_package_json
 generate_documentation
 misc_fixes
+remove_unused_packer_platforms
 
 # Warn user about missing virtualization platforms
 missing_virtualization_platforms_notice
