@@ -20,6 +20,8 @@ source "./.modules/shared/update.lib.sh"
 # Ensure dependencies are installed
 ensure_node_installed
 ensure_jq_installed
+ensure_packer_installed
+ensure_vagrant_installed
 
 # Ensure appropriate submodules are present
 ensure_project_docs_submodule_latest
