@@ -40,6 +40,7 @@ copy_project_files_and_generate_package_json
 generate_documentation
 misc_fixes
 remove_unused_packer_platforms
+generate_vagrantfile
 
 # Warn user about missing virtualization platforms
 missing_virtualization_platforms_notice
