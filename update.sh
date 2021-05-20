@@ -36,6 +36,7 @@ cp ./.modules/shared/.editorconfig .editorconfig
 cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
 
 # Apply updates from shared files
+populate_packer_descriptions
 copy_project_files_and_generate_package_json
 generate_documentation
 misc_fixes
