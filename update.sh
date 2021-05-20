@@ -15,6 +15,7 @@ else
   cd ../..
 fi
 
+# shellcheck disable=SC1091
 source "./.modules/shared/update.lib.sh"
 
 # Ensure dependencies are installed
