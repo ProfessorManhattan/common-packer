@@ -9,21 +9,21 @@ Vagrant.configure("2") do |config|
   config.ssh.password = "vagrant"
   config.ssh.username = "vagrant"
 
-  config.vm.define :OS_TAG do |OS_TAG|
-    OS_TAG.vm.box="VAGRANTUP_USER/OS_BOX_BASENAME"
-    OS_TAG.vm.hostname = "OS_HOSTNAME"
-    OS_TAG.vm.network :forwarded_port, guest: 22, host: 58022, id: "ssh", auto_correct: true
-    OS_TAG.vm.network :forwarded_port, guest: 3389, host: 53389, id: "rdp", auto_correct: true
-    OS_TAG.vm.network :forwarded_port, guest: 443, host: 58443, id: "https", auto_correct: true
-    OS_TAG.vm.network :forwarded_port, guest: 80, host: 58080, id: "http", auto_correct: true
+  config.vm.define "OSPLACEHOLDER" do |os|
+    os.vm.box="VAGRANTUP_USER/OS_BOX_BASENAME"
+    os.vm.hostname = "OSHOSTNAME"
+    os.vm.network "forwarded_port", guest: 22, host: 58022, id: "ssh", auto_correct: true
+    os.vm.network "forwarded_port", guest: 3389, host: 53389, id: "rdp", auto_correct: true
+    os.vm.network "forwarded_port", guest: 443, host: 58443, id: "https", auto_correct: true
+    os.vm.network "forwarded_port", guest: 80, host: 58080, id: "http", auto_correct: true
 
-    OS_TAG.vm.provider :hyperv do |v|
+    os.vm.provider "hyperv" do |v|
       v.cpus = 2
       v.maxmemory = 4096
       v.vmname = "OS_DESCRIPTION"
     end
 
-    OS_TAG.vm.provider :libvirt do |v, override|
+    os.vm.provider "libvirt" do |v, override|
       v.cpus = 2
       v.memory = 4096
       # Use WinRM for the default synced folder; or disable it if
@@ -43,14 +43,14 @@ Vagrant.configure("2") do |config|
     end
 
 
-    OS_TAG.vm.provider :parallels do |v|
+    os.vm.provider "parallels" do |v|
       v.cpus = 2
       v.memory = 4096
       v.name = "OS_DESCRIPTION"
       v.update_guest_tools = true
     end
 
-    OS_TAG.vm.provider :virtualbox do |v|
+    os.vm.provider "virtualbox" do |v|
       v.check_guest_additions = true
       v.cpus = 2
       v.customize ["modifyvm", :id, "--accelerate3d", "on"]
@@ -67,13 +67,13 @@ Vagrant.configure("2") do |config|
       v.name = "OS_DESCRIPTION"
     end
 
-    OS_TAG.vm.provider :vmware_fusion do |v|
+    os.vm.provider "vmware_fusion" do |v|
       v.gui = true
       v.vmx["memsize"] = "4096"
       v.vmx["numvcpus"] = "2"
     end
 
-    OS_TAG.vm.provider :vmware_workstation do |v|
+    os.vm.provider "vmware_workstation" do |v|
       v.gui = true
       v.vmx["memsize"] = "4096"
       v.vmx["numvcpus"] = "2"
