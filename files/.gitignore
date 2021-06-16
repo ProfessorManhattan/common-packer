@@ -9,3 +9,4 @@ npm-debug.log
 virtio-win.iso
 virtio-win-*.iso
 windows.iso
+venv/
