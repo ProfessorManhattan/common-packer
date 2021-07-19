@@ -1,49 +1,44 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 
-# This script performs maintenance on Packer repositories. It ensures git submodules are
-# installed and then copies over base files from the modules. It also generates the
-# documentation and performs other miscellaneous tasks.
+# @file .common/update.sh
+# @brief Ensures the project is up-to-date with the latest upstream changes
+# @description
+#   This script performs maintenance on this repository. It includes several bash script
+#   libraries and then it:
+#
+#   1. Ensures Node, jq, Task, and yq are installed
+#   2. Bootstraps the project by using Task to run initialization tasks which bootstrap the project
+#   3. Notifies the user about missing software dependencies that require root priviledges to install
 
 set -e
 
-# Ensure shared submodule is present
-if [ ! -d "./.modules/shared" ]; then
-  git submodule add -b master https://gitlab.com/megabyte-space/common/shared.git ./.modules/shared
-else
-  cd ./.modules/shared
-  git checkout master && git pull origin master --ff-only
-  cd ../..
+source "./.common/scripts/common.sh"
+source "./.common/scripts/log.sh"
+source "./.common/scripts/software.sh"
+source "./.common/scripts/notices.sh"
+source "./.common/lib.sh"
+
+if [ "${container:=}" != 'docker' ]; then
+  info "Ensuring Node.js, Task, jq, and yq are installed"
+  ensureNodeSetup &
+  ensureJQInstalled &
+  ensureTaskInstalled &
+  ensureYQInstalled &
+  wait
+  success "Node.js, Task, jq, and yq are all installed"
 fi
 
-# shellcheck disable=SC1091
-source "./.modules/shared/update.lib.sh"
+export REPO_SUBTYPE=$(yq e '.vars.REPOSITORY_SUBTYPE' Taskfile.yml)
 
-# Ensure dependencies are installed
-ensure_node_installed
-ensure_jq_installed
-ensure_packer_installed
-ensure_vagrant_installed
+cp ".common/files-$REPO_SUBTYPE/Taskfile.yml" Taskfile.yml
+task common:update
 
-# Ensure appropriate submodules are present
-ensure_project_docs_submodule_latest
-ensure_bento_submodule_latest
-ensure_windows_submodule_latest
+if [ "${container:=}" != 'docker' ]; then
+  missingDockerNotice
+  missingVirtualizationPlatformsNotice
+fi
 
-# Copy over files from the shared submodule
-cp -Rf ./.modules/shared/.github .
-cp -Rf ./.modules/shared/.gitlab .
-cp -Rf ./.modules/shared/.vscode .
-cp ./.modules/shared/.editorconfig .editorconfig
-cp ./.modules/shared/CODE_OF_CONDUCT.md CODE_OF_CONDUCT.md
+success "Bootstrap process complete!"
 
-# Apply updates from shared files
-run_latestos
-populate_packer_descriptions
-copy_project_files_and_generate_package_json
-generate_documentation
-misc_fixes
-remove_unused_packer_platforms
-generate_vagrantfile
-
-# Warn user about missing virtualization platforms
-missing_virtualization_platforms_notice
+cp .common/.start.sh .start.sh &
