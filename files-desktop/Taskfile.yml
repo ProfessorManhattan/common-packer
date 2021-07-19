@@ -1,0 +1,15 @@
+---
+version: "3"
+
+output: prefixed
+
+vars:
+  REPOSITORY_SUBTYPE: desktop
+  REPOSITORY_TYPE: packer
+
+includes:
+  common: ./.common/taskfiles-role/Taskfile-common.yml
+  packer: ./.common/taskfiles-role/Taskfile-packer.yml
+  fix: ./.common/taskfiles-role/Taskfile-fix.yml
+  lint: ./.common/taskfiles-role/Taskfile-lint.yml
+  software: ./.common/taskfiles-role/Taskfile-{{OS}}.yml
