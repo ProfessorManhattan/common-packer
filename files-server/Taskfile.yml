@@ -8,8 +8,8 @@ vars:
   REPOSITORY_TYPE: packer
 
 includes:
-  common: ./.common/taskfiles-{{.REPOSITORY_SUBTYPE}}/Taskfile-common.yml
-  packer: ./.common/taskfiles-{{.REPOSITORY_SUBTYPE}}/Taskfile-packer.yml
-  fix: ./.common/taskfiles-{{.REPOSITORY_SUBTYPE}}/Taskfile-fix.yml
-  lint: ./.common/taskfiles-{{.REPOSITORY_SUBTYPE}}/Taskfile-lint.yml
-  software: ./.common/taskfiles-{{.REPOSITORY_SUBTYPE}}/Taskfile-{{OS}}.yml
+  common: ./.common/taskfiles-server/Taskfile-common.yml
+  packer: ./.common/taskfiles-server/Taskfile-packer.yml
+  fix: ./.common/taskfiles-server/Taskfile-fix.yml
+  lint: ./.common/taskfiles-server/Taskfile-lint.yml
+  software: ./.common/taskfiles-server/Taskfile-{{OS}}.yml
