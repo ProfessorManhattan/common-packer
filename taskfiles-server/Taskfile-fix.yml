@@ -24,6 +24,10 @@ tasks:
       For more information on Prettier, see: https://prettier.io/
     cmds:
       - npm run fix:prettier
+
+  _formatting:
+    cmds:
+      - task: formatting
     sources:
       - '**/*.(css|html|js|json|less|md|mjml|php|scss|sh|ts|xml|yml)'
 
@@ -56,5 +60,9 @@ tasks:
       For more information on Shellcheck, see: https://github.com/koalaman/shellcheck
     cmds:
       - npm run fix:shellcheck
+
+  _scripts:
+    cmds:
+      - task: scripts
     sources:
       - '**/*.(sh|sh.j2)'
