@@ -22,6 +22,7 @@
     "packer-server": true,
     "playbook": false,
     "python": false,
+    "vagrant": true,
     "yaml": false
   },
   "header_description_post": ".",

@@ -61,7 +61,9 @@ tasks:
       (4) Add the appropriate details to the CHANGELOG.md file
     cmds:
       - task: update
-      - task: lint
+      - task: :lint:all
+      - task: :test:packer
+      - task: :test:vagrant
       - npm run version
 
   requirements:

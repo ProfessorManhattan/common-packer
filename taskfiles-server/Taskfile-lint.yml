@@ -4,7 +4,7 @@ version: '3'
 tasks:
   all:
     desc: Lint the project by running all the linters in parallel
-    deps: [formatting]
+    deps: [formatting, packer, vagrant]
 
   formatting:
     deps:
@@ -31,6 +31,23 @@ tasks:
     sources:
       - '**/*.(css|html|js|json|less|md|mjml|php|scss|sh|ts|xml|yml)'
 
+  packer:
+    deps:
+      - :software:packer
+    desc: Validate the Packer templates ending with `template.json`
+    summary: |
+      $ Validate Packer templates
+
+      This task will loop through all the Packer templates ending with `template.json`
+      in the root of this project and report any errors that the templates might have.
+
+      For more information on `packer validate`, see: https://www.packer.io/docs/commands/validate
+    cmds:
+      - |
+        for TEMPLATE in *template.json; do
+          packer validate "$TEMPLATE"
+        done
+
   scripts:
     deps:
       - :common:nodejs-dependencies
@@ -55,3 +72,18 @@ tasks:
       - task: scripts
     sources:
       - '**/*.(sh|sh.j2)'
+
+  vagrant:
+    deps:
+      - :software:vagrant
+    desc: Validate the Vagrantfile
+    summary: |
+      $ Validate the Vagrantfile
+
+      This task is an alias for `vagrant validate`. Vagrant's `validate` command
+      will ensure the Vagrantfile in the root of this repository has no errors and
+      is using valid syntax.
+
+      For more information on `vagrant validate`, see: https://www.vagrantup.com/docs/cli/validate
+    cmds:
+      - vagrant validate
