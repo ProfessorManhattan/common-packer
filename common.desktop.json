@@ -1,1 +1,10 @@
-{}
+{
+  "github_prefix": "packer-",
+  "hbs": {
+    "packer-desktop": true,
+    "packer": true
+  },
+  "header_description_post": ".",
+  "header_description_pre": "A Packer desktop OS project. Brought to you by  ",
+  "subgroup": "desktop"
+}
