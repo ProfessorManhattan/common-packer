@@ -18,12 +18,14 @@
   "hbs": {
     "ansible": false,
     "dockerfile": false,
+    "packer": true,
+    "packer-server": true,
     "playbook": false,
     "python": false,
     "yaml": false
   },
-  "header_description_post": "",
-  "header_description_pre": "",
+  "header_description_post": ".",
+  "header_description_pre": "A Packer VM server image project. Brought to you by  ",
   "header_title_post": "",
   "header_title_pre": "",
   "license": "MIT",
@@ -107,6 +109,6 @@
       "wrangler": "https://gitlab.com/megabyte-labs/wrangler"
     }
   },
-  "subgroup": "[[ Needs to be setup. Set this in the common repository for this type of project ]]",
+  "subgroup": "server",
   "title": "[[ package.json .blueprint.title - See CONTRIBUTING.md ]]"
 }

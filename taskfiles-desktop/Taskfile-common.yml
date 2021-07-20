@@ -173,7 +173,7 @@ tasks:
 
   python-requirements-venv:
     cmds:
-      - if ! type virtualenv &> /dev/null; then pip3 install virtualenv; fi
+      - task: python-virtualenv
       - virtualenv venv
     status:
       - test -f venv/bin/activate
@@ -192,6 +192,12 @@ tasks:
     preconditions:
       - sh: 'test -f requirements.txt'
         msg: 'The requirements.txt file is missing!'
+
+  python-virtualenv:
+    cmds:
+      - pip3 install virtualenv
+    status:
+      - type virtualenv &> /dev/null
 
   shell:
     deps:
@@ -267,6 +273,7 @@ tasks:
   update:
     desc: Refresh the project with the latest upstream code and ensure blueprint data has propagated
     cmds:
+      - task: update-common
       - task: update-start-sh
       - task: update-taskfile
       - if [ ! -f .variables.json ]; then echo '{}' > .variables.json; fi
@@ -274,6 +281,15 @@ tasks:
       - task: update-variables
       - task: update-all
       - bash .common/scripts/log-bash.sh success "Successfully updated the project with the latest upstream changes"
+
+  update-common:
+    deps:
+      - :software:git
+    cmds:
+      - cd .common && git pull origin master --no-rebase && cd ..
+    preconditions:
+      - sh: 'type git &> /dev/null'
+        msg: 'git is not installed! You can install it by running `task software:git`.'
 
   update-start-sh:
     cmds:
@@ -305,6 +321,7 @@ tasks:
       - mv "$TMP_VARS" .variables.json
     sources:
       - '.common/variables.{{.REPOSITORY_SUBTYPE}}.json'
+      - package.json
     preconditions:
       - sh: 'type jq &> /dev/null'
         msg: 'jq is not installed! You can install it by running `task software:jq`.'
@@ -418,8 +435,8 @@ tasks:
   _markdown-scrub:
     vars:
       DIVIDER_SRC:
-        '<a href="\1" style="width:100%"><img style="width:100%" alt="-----------------------------------------------------"
-        src="https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png" /></a>'
+        <a href="\1" style="width:100%"><img style="width:100%" alt="-----------------------------------------------------"
+        src="https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png" /></a>
       REGEX: .*https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/.*.png)][(]\(.*\)[)].*$
     cmds:
       - |
