@@ -4,7 +4,7 @@
 Vagrant.require_version ">= 1.6.2"
 
 cpus = 2
-description = "{{description}}"
+description = "{{templatejson.variables.description}}"
 memory = 4096
 
 Vagrant.configure("2") do |config|
@@ -12,21 +12,25 @@ Vagrant.configure("2") do |config|
   config.ssh.password = "vagrant"
   config.ssh.username = "vagrant"
 
-  config.vm.define "{{ latestos_tag }}" do |os|
-    os.vm.box="{{ vagrantup_user }}/{{ box_basename }}"
-    os.vm.hostname = "{{ hostname }}"
+  config.vm.define "{{templatejson.variables.latestos_tag}}" do |os|
+    os.vm.box="{{templatejson.variables.vagrantup_user}}/{{templatejson.variables.box_basename}}"
+    os.vm.hostname = "{{hostname}}"
 
     os.vm.network "forwarded_port", guest: 22, host: 58022, id: "ssh", auto_correct: true
     os.vm.network "forwarded_port", guest: 80, host: 58080, id: "http", auto_correct: true
     os.vm.network "forwarded_port", guest: 443, host: 58443, id: "https", auto_correct: true
     os.vm.network "forwarded_port", guest: 3389, host: 53389, id: "rdp", auto_correct: true
 
+{{#each templatejson.builders }}
+{{#if (eq this.type "hyperv-iso")}}
     os.vm.provider "hyperv" do |v|
       v.cpus = cpus
       v.maxmemory = memory
       v.vmname = description
     end
 
+{{/if}}
+{{#if (eq this.type "qemu")}}
     os.vm.provider "libvirt" do |v, override|
       v.cpus = cpus
       v.memory = memory
@@ -46,7 +50,8 @@ Vagrant.configure("2") do |config|
       v.hyperv_feature :name => 'synic', :state => 'on'
     end
 
-
+{{/if}}
+{{#if (eq this.type "parallels-iso")}}
     os.vm.provider "parallels" do |v|
       v.cpus = cpus
       v.memory = memory
@@ -54,6 +59,8 @@ Vagrant.configure("2") do |config|
       v.update_guest_tools = true
     end
 
+{{/if}}
+{{#if (eq this.type "virtualbox-iso")}}
     os.vm.provider "virtualbox" do |v|
       v.check_guest_additions = true
       v.cpus = cpus
@@ -69,6 +76,7 @@ Vagrant.configure("2") do |config|
       v.name = description
     end
 
+{{#if (eq this.type "vmware-iso")}}
     os.vm.provider "vmware_fusion" do |v|
       v.gui = true
       v.vmx["ethernet0.virtualDev"] = "vmxnet3"
@@ -104,5 +112,7 @@ Vagrant.configure("2") do |config|
       v.vmx["sound.present"] = "TRUE"
       v.vmx["sound.startConnected"] = "TRUE"
     end
+{{/if}}
+{{/each}}
   end
 end
