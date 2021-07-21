@@ -3,7 +3,8 @@
 
 . "./.common/scripts/log.sh"
 
-info "Validating the commit"
+log "Running `npm run lint-staged` to validate staged files"
 npm run lint-staged
+log "Running `task spelling` to check for possible spelling errors"
 task spelling
 success "Successfully validated the commit"
