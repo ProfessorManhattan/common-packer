@@ -21,6 +21,7 @@ if [ "${container:=}" != 'docker' ]; then
   info "Ensuring Node.js, Task, jq, and yq are installed"
   ensureNodeSetup &
   ensureJQInstalled &
+  ensurePackerInstalled &
   ensureTaskInstalled &
   ensureYQInstalled &
   wait
