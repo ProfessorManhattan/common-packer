@@ -6,6 +6,9 @@ tasks:
     desc: Lint the project by running all the linters in parallel
     deps: [formatting, packer, vagrant]
 
+  _all:
+    deps: [_formatting, _packer, _vagrant]
+
   formatting:
     deps:
       - :common:nodejs-dependencies

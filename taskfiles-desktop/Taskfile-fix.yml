@@ -6,6 +6,9 @@ tasks:
     desc: Apply automatic code formatting techniques (Prettier, Black, and Shellcheck)
     deps: [formatting, packer, scripts]
 
+  _all:
+    deps: [_formatting, _packer, _scripts]
+
   formatting:
     deps:
       - :common:nodejs-dependencies
