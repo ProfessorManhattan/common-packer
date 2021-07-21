@@ -121,7 +121,7 @@ tasks:
       - |
         for TMP_FILE in build test; do
           if [ -f "/tmp/\{{.RANDOM_STRING}}-$TMP_FILE" ] || [ -d "/tmp/\{{.RANDOM_STRING}}-$TMP_FILE" ]; then
-            rsync -a --delete /tmp/\{{.RANDOM_STRING}}-empty "/tmp/\{{.RANDOM_STRING}}-$TMP_FILE" &
+            (rsync -a --delete /tmp/\{{.RANDOM_STRING}}-empty "/tmp/\{{.RANDOM_STRING}}-$TMP_FILE" && rm -rf "/tmp/\{{.RANDOM_STRING}}-$TMP_FILE") &
           fi
         done
 
