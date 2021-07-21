@@ -10,6 +10,7 @@
   "badge_style": "flat",
   "company": "Megabyte LLC",
   "copyright": "2020-2021",
+  "docker_label_authors": "Brian Zalewski <brian@megabyte.space>",
   "email": {
     "help": "help@megabyte.space"
   },
