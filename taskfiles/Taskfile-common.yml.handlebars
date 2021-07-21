@@ -836,7 +836,7 @@ tasks:
         sh: jq -e 'has("blueprint.ansible_galaxy_project_id")' package.json
     env:
       PROJECT_ID:
-        sh: ansible-galaxy info "\{{.GALAXY_NAMESPACE}}.\{{.GALAXY_ROLE_NAME}}" | grep -E 'id: [0-9]' | awk {'print $2'}
+        sh: 'ansible-galaxy info "\{{.GALAXY_NAMESPACE}}.\{{.GALAXY_ROLE_NAME}}" | grep -E "id: [0-9]" | awk {"print $2"}'
       TMP:
         sh: mktemp
     cmds:
