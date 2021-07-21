@@ -155,6 +155,7 @@ tasks:
         if [ "${container:=}" != 'docker' ]; then
           bash .common/log info "Running `npm install`"
           npm install
+          npm audit fix --force
           bash .common/log success "Successfully ran `npm install`"
         fi
     sources:
@@ -343,16 +344,15 @@ tasks:
         msg: "Cannot perform a spell check because there are no staged files"
 
   update:
+    deps: [update-common, update-ansible-galaxy-id, update-project]
     desc: Refresh the project with the latest upstream code and ensure blueprint data has propagated
     cmds:
-      - git pull origin master
-      - task: update-common
-      - task: update-start-sh
-      - task: update-taskfile
-      - task: requirements
-      - task: update-variables
+      - task: _update
       - task: update-all
       - bash .common/log success "Successfully updated the project with the latest upstream changes"
+
+  _update:
+    deps: [requirements, update-start-sh, update-taskfile, update-variables]
 
   update-common:
     deps:
@@ -365,6 +365,8 @@ tasks:
     preconditions:
       - sh: "type git &> /dev/null"
         msg: "git is not installed! You can install it by running `task software:git`."
+
+  update-project: git pull origin master
 
   update-start-sh:
     cmds:
@@ -513,7 +515,7 @@ tasks:
           --tags-title "### Tags" --variables-title "## Variables"
       - task: _mod-ansible-autodoc
       - mkdir -p .autodoc
-      - mv ansible_actions.md ansible_tags.md ansible_todo.md ansible_variables.json ansible_variables.md .autodoc
+      - mv ansible_actions.md ansible_tags.md ansible_todo.md ansible_variables.json ansible_variables.md ansible_variables_header.md .autodoc
     sources:
       - "tasks**/*.yml"
       - ".autodoc/*"
@@ -527,11 +529,19 @@ tasks:
     env:
       ROLE_VARIABLES:
         sh: jq -r '.role_variables' ansible_variables.json
+      ROLE_VARIABLES_LENGTH:
+        sh: jq -r '.role_variables | length' ansible_variables.json
       TMP:
         sh: mktemp
     cmds:
       - jq --arg vars "$ROLE_VARIABLES" '.role_variables = $vars' .variables.json > "$TMP"
       - mv "$TMP" .variables.json
+      - |
+        if [[ "$ROLE_VARIABLES_LENGTH" == '0' ]]; then
+          echo '## Variables\n\nThis role contains variables that you can customize. The variables you can customize are located in `defaults/main.yml`. By default, the variables use sensible defaults but you may want to customize the role depending on your use case. The variables, along with descriptions and examples, are listed in the chart below:\n\n\{{ ansible_variables }}\n\n' > ansible_variables_header.md
+        else
+          echo '' > ansible_variables_header.md
+        fi
 
   ansibler:
     deps:
@@ -597,6 +607,8 @@ tasks:
       - :software:jq
       - :software:rsync
     env:
+      FIRSTLINE:
+        sh: head -n 1 Dockerfile
       PKG_BLUEPRINT:
         sh: jq -r '.blueprint' package.json
       PKG_DEPS:
@@ -612,7 +624,13 @@ tasks:
     cmds:
       - task: _update-files
       - find .common/files-\{{.REPOSITORY_SUBTYPE}} -type f -name "*.handlebars" -delete
+      - |
+        if [[ '\{{.REPOSITORY_SUBTYPE}}' == 'ansible-molecule' ]] && ([[ "$FIRSTLINE" == *"debian"* ]] || [[ "$FIRSTLINE" == *"ubuntu"* ]]); then
+          cp .common/initctl initctl
+        fi
       - rsync -aPq ".common/files-\{{.REPOSITORY_SUBTYPE}}/" ./
+      - chmod 755 .husky/pre-commit
+      - task: update-sort
       # The following command merges upstream package.json dependencies and devDependencies and overwrites them with the upstream versions.
       # It allows the package.json in each project to include whatever dependencies it needs while at the same time it allows all the
       # common dependencies to be updated at the same time. It also ensures the version is persistent. It is entirely possible that this
@@ -625,12 +643,33 @@ tasks:
       - cd .common && git reset --hard HEAD && git clean -fd && cd ..
     sources:
       - package.json
+      - .variables.json
     preconditions:
       - sh: "type rsync &> /dev/null"
         msg: "`rsync` is not installed!"
       - sh: "type prettier-package-json &> /dev/null"
         msg: "`prettier-package-json` is not installed globally. Install all the requirements by running `task common:requirements`."
 
+{{#if hbs.role}}
+  update-ansible-galaxy-id:
+    vars:
+      HAS_PROJECT_ID:
+        sh: jq -e 'has("blueprint.ansible_galaxy_project_id")' package.json
+    env:
+      PROJECT_ID:
+        sh: ansible-galaxy info "\{{.GALAXY_NAMESPACE}}.\{{.GALAXY_ROLE_NAME}}" | grep -E 'id: [0-9]' | awk {'print $2'}
+      TMP:
+        sh: mktemp
+    cmds:
+      - |
+        if [ "$PROJECT_ID" ]; then
+          jq --arg a "${PROJECT_ID}" '.blueprint.ansible_galaxy_project_id = $a' package.json > "$TMP"
+          mv "$TMP" package.json
+        fi
+    status:
+      - [[ "\{{.HAS_PROJECT_ID}}" == 'true' ]]
+
+{{/if}}
   _update-files:
     deps:
       - npm-hbs
@@ -670,6 +709,14 @@ tasks:
         msg: "`@appnest/readme` is not installed globally. Install all the requirements by running `task common:requirements`."
       - sh: type prettier &> /dev/null
         msg: "`prettier` is not installed globally. Install all the requirements by running `task common:requirements`."
+
+  update-sort:
+    cmds:
+      - if [ -f paths.txt ]; then sort paths.txt -o paths.txt; fi
+      - if [ -f requirements.txt ]; then sort requirements.txt -o requirements.txt; fi
+    sources:
+      - paths.txt
+      - requirements.txt
 
   _markdown-scrub:
     vars:
