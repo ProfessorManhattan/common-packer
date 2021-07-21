@@ -45,6 +45,7 @@
   "organization": "Megabyte Labs",
   "overview": "This is a new repository without the details filled in yet. Look for the section about blueprint data in the CONTRIBUTING.md to set up the project.",
   "profile": {
+    "dockerhub": "megabytelabs",
     "galaxy": "professormanhattan",
     "github": "ProfessorManhattan",
     "linkedin": "blzalewski",
@@ -59,6 +60,7 @@
     "vagrant": "ProfessorManhattan"
   },
   "profile_link": {
+    "dockerhub": "https://hub.docker.com/u",
     "galaxy": "https://galaxy.ansible.com",
     "github": "https://github.com",
     "linkedin": "https://www.linkedin.com/in/",
