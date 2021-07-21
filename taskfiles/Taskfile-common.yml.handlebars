@@ -846,7 +846,7 @@ tasks:
           mv "$TMP" package.json
         fi
     status:
-      - [[ "\{{.HAS_PROJECT_ID}}" == 'true' ]]
+      - '[[ "\{{.HAS_PROJECT_ID}}" == "true" ]]'
 
 {{/if}}
   _update-files:
