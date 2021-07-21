@@ -89,7 +89,6 @@ tasks:
       initiating a `virtualenv`. In some types of projects, additional types of requirements are
       installed (e.g. Ansible projects also install Ansible Galaxy requirements).
     deps: [nodejs-dependencies, nodejs-global-dependencies, python-requirements]
-
   reset:
     desc: Resets the project by removing all caches and updating the project
     summary: |

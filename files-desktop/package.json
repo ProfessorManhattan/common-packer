@@ -1,0 +1,121 @@
+{
+  "name": "packer-project",
+  "description": "Node files that aid in development of Packer projects",
+  "license": "MIT",
+  "author": "Brian Zalewski <brian@megabyte.space> (https://megabyte.space)",
+  "homepage": "https://megabyte.space",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/megabyte-labs/packer/PROJECT_SLUG.git"
+  },
+  "bugs": {
+    "email": "help@megabyte.space",
+    "url": "https://gitlab.com/megabyte-labs/packer/PROJECT_SLUG/-/issues"
+  },
+  "version": "1.0.0",
+  "scripts": {
+    "build": "trash build && packer build template.json",
+    "build:hyperv": "trash build && packer build -only=hyperv-iso template.json",
+    "build:kvm": "trash build && packer build -only=qemu template.json",
+    "build:parallels": "trash build && packer build -only=parallels-iso template.json",
+    "build:virtualbox": "trash build && packer build -only=virtualbox-iso template.json",
+    "build:vmware": "trash build && packer build -only=vmware-iso template.json",
+    "commit": "git-cz",
+    "fix": "run-s fix:*",
+    "fix:packer": "for TEMPLATE in *template.json; do packer fix $TEMPLATE > __$TEMPLATE; mv __$TEMPLATE $TEMPLATE; done",
+    "fix:prettier": "prettier --write .",
+    "fix:shellcheck": "find . -type d \\( -name .cache -o -name .git -o -name .modules  -o -name node_modules -o -name .husky \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 shellcheck -f diff | git apply",
+    "info": "npm-scripts-info",
+    "postinstall": "husky install && run-s update",
+    "launch": "vagrant up",
+    "misc:markdown-links": "find . -type d \\( -name .cache -o -name .git -o -name .github -o -name .gitlab -o -name .modules  -o -name node_modules \\) -prune -o -type f \\( -name \\*.md \\) -print0 | xargs -0 -r -n1 markdown-link-check",
+    "prepare-release": "run-s update test version",
+    "test": "run-s test:*",
+    "test:packer": "for TEMPLATE in *template.json; do packer validate $TEMPLATE; done",
+    "test:prettier": "prettier --list-different .",
+    "test:shellcheck": "find . -type d \\( -name .cache -o -name .git -o -name .modules  -o -name node_modules -o -name .husky \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 -r -n1 shellcheck",
+    "test:vagrant": "vagrant validate",
+    "update": "bash .start.sh && cp ./.modules/packer/.start.sh .start.sh",
+    "version": "standard-version -a --no-verify"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@megabytelabs/prettier-config": "^1.2.893",
+    "consola": "^2.15.3",
+    "cspell": "^5.4.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^5.2.0",
+    "lint-staged": "^11.0.0",
+    "markdown-link-check": "^3.8.7",
+    "npm-run-all": "^4.1.5",
+    "npm-scripts-info": "^0.3.9",
+    "prettier": "^2.1.1",
+    "prettier-package-json": "^2.5.0",
+    "prettier-plugin-sh": "^0.6.1",
+    "shellcheck": "^1.0.0",
+    "standard-version": "^9.3.0",
+    "trash-cli": "^4.0.0"
+  },
+  "keywords": [
+    "packer",
+    "desktop",
+    "workstation",
+    "accelerated",
+    "optimized",
+    "compressed",
+    "PROJECT_SLUG"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/megabytelabs"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/ProfessorManhattan"
+    }
+  ],
+  "lint-staged": {
+    "*.{json}": [
+      "prettier --write"
+    ],
+    "scripts/*.custom.sh": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "prettier-package-json --write"
+    ]
+  },
+  "prettier": "@megabytelabs/prettier-config",
+  "scripts-info": {
+    "build": "Build all of the images",
+    "build:hyperv": "Build a Hyper-V image",
+    "build:kvm": "Build a QEMU/KVM image",
+    "build:parallels": "Build a Parallels image",
+    "build:virtualbox": "Build a VirtualBox image",
+    "build:vmware": "Build a VMWare image",
+    "commit": "The preferred way of running git commit (instead of git commit, we prefer running 'npm run commit')",
+    "fix": "Automatically fix formatting errors",
+    "info": "Logs descriptions of all the npm tasks",
+    "launch": "Runs 'vagrant up' to automatically spin up the VM",
+    "misc:markdown-links": "Checks markdown files for broken links",
+    "prepare-release": "Updates the CHANGELOG with commits made using 'npm run commit' and updates the project to be ready for release",
+    "test": "Validates the Packer configuration file (i.e. template.json) and performs some other linting",
+    "update": "Runs .start.sh to automatically update meta files and documentation",
+    "version": "Used by 'npm run prepare-release' to update the CHANGELOG and app version"
+  },
+  "standard-version": {
+    "scripts": {
+      "prebump": "jq -r '.variables.iso_version' template.json",
+      "prerelease": "git add --all",
+      "pretag": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && if git show-ref --tags v$PACKAGE_VERSION --quiet; then git tag -d v$PACKAGE_VERSION; fi"
+    }
+  }
+}

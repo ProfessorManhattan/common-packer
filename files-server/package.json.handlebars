@@ -91,10 +91,7 @@
     "**/*.{js}": [
       "npx standard --fix"
     ],
-    "**/*.{sh,sh.j2}": [
-      "prettier --write",
-      "shellcheck"
-    ],
+    "**/*.{sh,sh.j2}": [],
     "**/*.xml": [
       "check-xml"
     ],
@@ -110,6 +107,16 @@
     ],
     ".gitlab-ci.yml": [
       "npx gitlab-ci-lint"
+    ],
+    "scripts/*.custom.sh": [
+      "prettier --write",
+      "shellcheck"
+    ],
+    "*template.json": [
+      "packer validate"
+    ],
+    "Vagrantfile": [
+      "vagrant validate"
     ]
   },
   "prettier": "@megabytelabs/prettier-config",
