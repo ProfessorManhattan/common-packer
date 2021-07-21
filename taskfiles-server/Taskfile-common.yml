@@ -95,6 +95,24 @@ tasks:
       installed (e.g. Ansible projects also install Ansible Galaxy requirements).
     deps: [nodejs-dependencies, nodejs-global-dependencies, python-requirements]
 
+  populate-packer-descriptions:
+    deps:
+      - :software:jq
+    vars:
+      DESCRIPTION_TEMPLATE:
+        sh: jq -r '.description_template' .variables.json
+      VERSION_DESCRIPTION:
+        sh: jq -r '.version_description' .variables.json
+    env:
+      TMP:
+        sh: mktemp
+    cmds:
+      - jq --arg a "{{.DESCRIPTION_TEMPLATE}}" --arg b "{{.VERSION_DESCRIPTION}}" '.variables.description = $a | .variables.version_description = $b'
+        template.json > "$TMP"
+      - mv "$TMP" template.json
+    sources:
+      - template.json
+
   reset:
     desc: Resets the project by removing all caches and updating the project
     summary: |
@@ -323,14 +341,15 @@ tasks:
         msg: 'Cannot perform a spell check because there are no staged files'
 
   update:
-    deps: [update-common, update-ansible-galaxy-id, update-project]
+    deps: [update-common, update-latestos, update-project]
     desc: Refresh the project with the latest upstream code and ensure blueprint data has propagated
     cmds:
-      - task: _update
+      - task: update-start
       - task: update-all
+      - task: update-finish
       - bash .common/log success "Successfully updated the project with the latest upstream changes"
 
-  _update:
+  update-start:
     deps: [requirements, update-start-sh, update-taskfile, update-variables]
 
   update-common:
@@ -345,7 +364,12 @@ tasks:
       - sh: 'type git &> /dev/null'
         msg: 'git is not installed! You can install it by running `task software:git`.'
 
-  update-project: git pull origin master
+  update-finish:
+    deps: []
+
+  update-project:
+    cmds:
+      - git pull origin master
 
   update-start-sh:
     cmds:
@@ -385,6 +409,13 @@ tasks:
   update-variables-packer:
     deps:
       - :software:jq
+    vars:
+      ISO_VERSION:
+        sh: jq -r '.variables.iso_version' template.json
+      MAJOR_VERSION:
+        sh: cut -d '.' -f 1 <<< {{.ISO_VERSION}}
+      MINOR_VERSION:
+        sh: cut -d '.' -f 2 <<< {{.ISO_VERSION}}
     env:
       TEMPLATE_JSON:
         sh: jq -r '.' template.json
@@ -393,6 +424,19 @@ tasks:
     cmds:
       - jq -S --arg templatejson "$TEMPLATE_JSON" '.template_json = ($templatejson | fromjson)' .variables.json > "$TMP"
       - mv "$TMP" .variables.json
+      - |
+        if [[ '{{OS}}' == 'darwin' ]]; then
+          sed -i .bak "s^MAJOR_VERSION^{{.MAJOR_VERSION}}^g" .variables.json && rm .variables.json.bak
+          sed -i .bak "s^MINOR_VERSION^{{.MINOR_VERSION}}^g" .variables.json && rm .variables.json.bak
+          sed -i .bak "s^ISO_VERSION^{{.ISO_VERSION}}^g" .variables.json && rm .variables.json.bak
+        elif [[ '{{OS}}' == 'linux' ]]; then
+          sed -i "s^MAJOR_VERSION^{{.MAJOR_VERSION}}^g" .variables.json
+          sed -i "s^MINOR_VERSION^{{.MINOR_VERSION}}^g" .variables.json
+          sed -i "s^ISO_VERSION^{{.ISO_VERSION}}^g" .variables.json
+        fi
+    sources:
+      - template.json
+      - .variables.json
     preconditions:
       - sh: test -f template.json
         msg:
@@ -403,7 +447,7 @@ tasks:
         msg: 'The `.variables.json` file is missing!'
 
   update-all:
-    deps: [update-contributing, update-readme, update-files]
+    deps: [populate-packer-descriptions, update-contributing, update-readme, update-files]
 
   update-modules:
     deps:
@@ -515,6 +559,26 @@ tasks:
       - sh: 'type hbs &> /dev/null'
         msg: '`hbs-cli` is not installed globally. Install all the requirements by running `task common:requirements`.'
 
+  update-latestos:
+    deps:
+      - python-requirements
+      - :software:jq
+    vars:
+      TAG:
+        sh: jq -r '.variables.vagrant_tag' template.json
+    cmds:
+      - |
+        if [[ '{{.TAG}}' != 'macos' ]]; then
+          latestos {{.TAG}}
+        fi
+    status:
+      - '[[ "{{.TAG}}}" == "macos" ]]'
+    preconditions:
+      - sh: test -f template.json
+        msg: 'The `template.json` file is missing from the root of this project.'
+      - sh: type latestos &> /dev/null
+        msg: 'The `latestos` pip package is not installed. Try running `task common:python-requirements`.'
+
   update-readme:
     deps: [npm-prettier, npm-readme]
     vars:
@@ -524,6 +588,7 @@ tasks:
       - task: _markdown-scrub
         vars:
           SCRUB_FILE: README.md
+      - task: update-readme-packer
       - prettier --write README.md
     sources:
       - .autodoc/*
@@ -537,6 +602,35 @@ tasks:
         msg: '`@appnest/readme` is not installed globally. Install all the requirements by running `task common:requirements`.'
       - sh: type prettier &> /dev/null
         msg: '`prettier` is not installed globally. Install all the requirements by running `task common:requirements`.'
+
+  update-readme-packer:
+    cmds:
+      - task: _update-readme-packer
+        vars:
+          TYPE: hyperv-iso
+      - task: _update-readme-packer
+        vars:
+          TYPE: parallels-iso
+      - task: _update-readme-packer
+        vars:
+          TYPE: qemu
+      - task: _update-readme-packer
+        vars:
+          TYPE: virtualbox-iso
+      - task: _update-readme-packer
+        vars:
+          TYPE: vmware-iso
+
+  _update-readme-packer:
+    cmds:
+      - |
+        if ! grep -q '"type": "{{.TYPE}}"' template.json; then
+          if [[ '' == 'darwin' ]]; then
+            sed -i .bak '/SUPPORTED_OS_{{.TYPE}}/d' README.md && rm README.md.bak
+          elif [[ '' == 'linux' ]]; then
+            sed -i '/SUPPORTED_OS_{{.TYPE}}/d' README.md
+          fi
+        fi
 
   update-sort:
     cmds:
