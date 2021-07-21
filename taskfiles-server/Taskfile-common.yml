@@ -11,8 +11,20 @@ tasks:
       cached during various build steps. This task is used by the `task common:reset` task
       which will re-generate the project from scratch. Ideally, this task and the reset task
       should never be necessary. The `common:update` task should be used instead.
+    vars:
+      RANDOM_STRING:
+        sh: openssl rand -hex 14
     cmds:
-      - rm -rf .autodoc .task .variables.json .venv node_modules venv
+      - rm .variables.json
+      - mv .autodoc /tmp/{{.RANDOM_STRING}}-autodoc
+      - mv .task /tmp/{{.RANDOM_STRING}}-task
+      - mv .venv /tmp/{{.RANDOM_STRING}}-venv
+      - mv node_modules /tmp/{{.RANDOM_STRING}}-node_modules
+      - mkdir /tmp/{{.RANDOM_STRING}}-empty
+      - |
+        for TMP_FILE in autodoc task venv node_modules; do
+          rsync -a --delete /tmp/{{.RANDOM_STRING}}-empty "/tmp/{{.RANDOM_STRING}}-$TMP_FILE" &
+        done
 
   commit:
     deps: [nodejs-dependencies, python-requirements]
@@ -311,19 +323,17 @@ tasks:
   update-variables:
     deps:
       - :software:jq
-      - :software:yq
     env:
       BLUEPRINT_DATA:
         sh: jq -r '.blueprint' package.json
-      TMP_JQ:
-        sh: mktemp
-      TMP_VARS:
+      TMP:
         sh: mktemp
     vars:
       COMMON_JSON: '.common/common.{{.REPOSITORY_SUBTYPE}}.json'
     cmds:
-      - jq -S --arg blueprint "$BLUEPRINT_DATA" '. = . * ($blueprint | fromjson)' ".common/variables.{{.REPOSITORY_SUBTYPE}}.json" > "$TMP_VARS"
-      - mv "$TMP_VARS" .variables.json
+      - jq -S --arg blueprint "$BLUEPRINT_DATA" '. = . * ($blueprint | fromjson)' ".common/variables.{{.REPOSITORY_SUBTYPE}}.json" > "$TMP"
+      - mv "$TMP" .variables.json
+      - task: update-variables-packer
     sources:
       - '.common/variables.{{.REPOSITORY_SUBTYPE}}.json'
       - package.json
@@ -332,6 +342,26 @@ tasks:
         msg: 'jq is not installed! You can install it by running `task software:jq`.'
       - sh: 'type yq &> /dev/null'
         msg: 'yq is not installed! You can install it by running `task software:yq`.'
+
+  update-variables-packer:
+    deps:
+      - :software:jq
+    env:
+      TEMPLATE_JSON:
+        sh: jq -r '.' template.json
+      TMP:
+        sh: mktemp
+    cmds:
+      - jq -S --arg templatejson "$TEMPLATE_JSON" '.template_json = ($templatejson | fromjson)' .variables.json > "$TMP"
+      - mv "$TMP" .variables.json
+    preconditions:
+      - sh: test -f template.json
+        msg:
+          'A `template.json` file is not present. This project uses values stored in `template.json` to generate certain
+          meta artifacts. Please add a `template.json`. You can find an example of one in this repository:
+          https://gitlab.com/megabyte-labs/packer/ubuntu-desktop'
+      - sh: test -f .variables.json
+        msg: 'The `.variables.json` file is missing!'
 
   update-all:
     deps: [update-contributing, update-readme, update-files]
@@ -359,7 +389,6 @@ tasks:
         done
     status:
       - test -d .modules
-
   update-contributing:
     deps: [npm-prettier, npm-readme]
     vars:
