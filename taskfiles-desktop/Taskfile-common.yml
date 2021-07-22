@@ -514,10 +514,6 @@ tasks:
     cmds:
       - task: _update-files
       - find .common/files-{{.REPOSITORY_SUBTYPE}} -type f -name "*.handlebars" -delete
-      - |
-        if [[ '{{.REPOSITORY_SUBTYPE}}' == 'ansible-molecule' ]] && ([[ "$FIRSTLINE" == *"debian"* ]] || [[ "$FIRSTLINE" == *"ubuntu"* ]]); then
-          cp .common/initctl initctl
-        fi
       - rsync -aPq ".common/files-{{.REPOSITORY_SUBTYPE}}/" ./
       - chmod 755 .husky/pre-commit
       - task: update-sort
