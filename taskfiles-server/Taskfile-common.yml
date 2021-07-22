@@ -153,7 +153,7 @@ tasks:
           bash .common/log info "Running \`npm install\`"
           npm install
           npm audit fix --force
-          bash .common/log success "Successfully ran `npm install`"
+          bash .common/log success "Successfully ran \`npm install\`"
         fi
     sources:
       - package.json
@@ -247,7 +247,7 @@ tasks:
     cmds:
       - . .venv/bin/activate
     preconditions:
-      - sh: test ! -f .venv/bin/activate
+      - sh: test -f .venv/bin/activate
         msg: '`.venv/bin/activate` is missing!'
 
   python-requirements-pip:
