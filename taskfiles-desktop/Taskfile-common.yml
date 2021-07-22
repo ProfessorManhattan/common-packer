@@ -499,8 +499,6 @@ tasks:
       - :software:jq
       - :software:rsync
     env:
-      FIRSTLINE:
-        sh: head -n 1 Dockerfile
       PKG_BLUEPRINT:
         sh: jq -r '.blueprint' package.json
       PKG_DEPS:
