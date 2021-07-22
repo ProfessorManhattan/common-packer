@@ -20,7 +20,7 @@
     "ansible": false,
     "dockerfile": false,
     "packer": true,
-    "packer-server": true,
+    "packer_server": true,
     "playbook": false,
     "python": false,
     "vagrant": true,
