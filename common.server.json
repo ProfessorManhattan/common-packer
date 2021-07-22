@@ -1,7 +1,7 @@
 {
   "github_prefix": "packer-",
   "hbs": {
-    "packer-server": true,
+    "packer_server": true,
     "packer": true,
     "vagrant": true
   },
