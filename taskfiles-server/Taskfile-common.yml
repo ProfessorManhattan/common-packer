@@ -486,11 +486,13 @@ tasks:
     vars:
       CONTRIB_TEMPLATE: .common/docs/blueprint-contributing.md
     cmds:
+      - bash .common/log log "Generating CONTRIBUTING.md"
       - readme generate --config .variables.json --input "{{.CONTRIB_TEMPLATE}}" --output CONTRIBUTING.md
       - task: _markdown-scrub
         vars:
           SCRUB_FILE: CONTRIBUTING.md
       - prettier --write CONTRIBUTING.md
+      - bash .common/log success "Generated CONTRIBUTING.md"
     sources:
       - .variables.json
     preconditions:
@@ -585,12 +587,14 @@ tasks:
     vars:
       README_TEMPLATE: blueprint-readme.md
     cmds:
+      - bash .common/log log "Generating README.md"
       - readme generate --config .variables.json --input ".common/docs/{{.README_TEMPLATE}}"
       - task: _markdown-scrub
         vars:
           SCRUB_FILE: README.md
       - task: update-readme-packer
       - prettier --write README.md
+      - bash .common/log success "Generated README.md"
     sources:
       - .autodoc/*
       - .variables.json
@@ -649,7 +653,7 @@ tasks:
       REGEX: .*https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/.*.png)][(]\(.*\)[)].*$
     cmds:
       - |
-        if [[ '' == 'darwin' ]]; then
+        if [[ '{{OS}}' == 'darwin' ]]; then
           sed -i .bak 's^{{.REGEX}}^{{.DIVIDER_SRC}}^g' {{.SCRUB_FILE}} && rm {{.SCRUB_FILE}}.bak
         else
           sed -i 's^{{.REGEX}}^{{.DIVIDER_SRC}}^g' {{.SCRUB_FILE}}
