@@ -351,7 +351,7 @@ tasks:
 
   update-repositories:
     cmds:
-      #- task: update-common
+      # - task: update-common
       - task: update-modules
       - task: update-project
 
