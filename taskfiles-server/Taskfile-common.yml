@@ -150,10 +150,10 @@ tasks:
     cmds:
       - |
         if [ "${container:=}" != 'docker' ]; then
-          bash .common/log info "Running \`npm install\`"
+          bash .common/log info "Running 'npm install'"
           npm install
-          npm audit fix --force
-          bash .common/log success "Successfully ran \`npm install\`"
+          npm audit fix --force || true
+          bash .common/log success "Successfully ran 'npm install'"
         fi
     sources:
       - package.json
@@ -175,9 +175,9 @@ tasks:
     cmds:
       - |
         if [ "${container:=}" != 'docker' ]; then
-          bash .common/log info "Running \`npm install -g {{.NPM_PACKAGE}}\`"
+          bash .common/log info "Running 'npm install -g {{.NPM_PACKAGE}}'"
           npm install -g {{.NPM_PACKAGE}}
-          bash .common/log success "`The npm {{.NPM_PACKAGE}}` package is globally installed"
+          bash .common/log success "The npm '{{.NPM_PACKAGE}}' package is globally installed"
         fi
     status:
       - type {{.NPM_PACKAGE_BIN}} &> /dev/null
@@ -351,7 +351,7 @@ tasks:
 
   update-repositories:
     cmds:
-      # - task: update-common
+      - task: update-common
       - task: update-modules
       - task: update-project
 
@@ -572,6 +572,7 @@ tasks:
       TAG:
         sh: jq -r '.variables.latestos_tag' template.json
     cmds:
+      - . .venv/bin/activate
       - |
         if [ "${container:=}" != 'docker' ] && [[ '{{.TAG}}' != 'macos' ]]; then
           latestos {{.TAG}}
