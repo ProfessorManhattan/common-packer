@@ -180,16 +180,22 @@ tasks:
   galaxy-requirements:
     cmds:
       - . .venv/bin/activate
-      - |
-        if [ "${container:=}" != 'docker' ]; then
-          bash .common/log log "Running 'ansible-galaxy install -r requirements.yml --ignore-errors'"
-          if type ansible-galaxy &> /dev/null; then
-            ansible-galaxy install -r requirements.yml --ignore-errors || true # TODO: Remove
-            bash .common/log success "Successfully installed Ansible Galaxy requirements"
-          else
-            bash .common/log warn "Ansible Galaxy requirements were not installed because 'ansible-galaxy' is not available in the PATH"
+      - ignore_error: true
+        cmd: |
+          if [ "${container:=}" != 'docker' ]; then
+            bash .common/log log "Running 'ansible-galaxy install -r requirements.yml --ignore-errors'"
+            if type ansible-galaxy &> /dev/null; then
+              ansible-galaxy install -r requirements.yml --ignore-errors
+              if [[ $? == 0 ]]; then
+                bash .common/log success "Successfully installed Ansible Galaxy requirements"
+              else
+                bash .common/log error "Failed to install Ansible Galaxy requirements"
+              fi
+            else
+              bash .common/log warn "Ansible Galaxy requirements were not installed because 'ansible-galaxy' is not available in the PATH"
+            fi
           fi
-        fi
+        ignore_error: true
     sources:
       - requirements.yml
     preconditions:
