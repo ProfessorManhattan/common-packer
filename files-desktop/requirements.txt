@@ -1,3 +1,4 @@
 latestos
 pre-commit-hooks
+proselint
 yamllint

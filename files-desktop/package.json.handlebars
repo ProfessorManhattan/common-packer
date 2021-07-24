@@ -15,12 +15,16 @@
   },
   "type": "module",
   "scripts": {
+    "clean": "task common:clean",
     "commit": "git-cz",
     "fix:shellcheck": "find . -type d \\( -name .cache -o -name .common -o -name .git -o -name .husky -o -name .modules -o -name .task -o -name .venv -o -name node_modules -o -name venv \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 shellcheck -f diff | git apply",
     "postinstall": "if [ -d .git ]; then husky install; fi && if [ -f .husky/pre-commit ]; then chmod 755 .husky/pre-commit; fi",
     "lint:shellcheck": "find . -type d \\( -name .cache -o -name .common -o -name .git -o -name .husky -o -name .modules -o -name .task -o -name .venv -o -name node_modules -o -name venv \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 -r -n1 shellcheck",
-    "prepare-release": "task prepare-release",
-    "version": "standard-version --no-verify"
+    "prepare-release": "task common:prepare-release",
+    "requirements": "task common:requirements",
+    "reset": "task common:reset",
+    "reset-force": "task common:reset-force",
+    "update": "task common:update"
   },
   "config": {
     "commitizen": {
@@ -70,17 +74,29 @@
     "**/*": [
       "check-merge-conflict",
       "check-added-large-files",
-      "check-symlinks"
+      "check-symlinks",
+      "destroyed-symlinks"
     ],
-    "**/*.(css|html|json|less|md|mjml|php|scss|sh|ts)": [
+    "**/*.(css|html|json|less|mjml|php|scss|sh|ts)": [
       "prettier --write"
     ],
     "**/*.js": [
       "npx standard --fix",
       "prettier --write"
     ],
+    "**/*.json": [
+      "check-json",
+      "pretty-format-json --autofix"
+    ],
+    "**/*.md": [
+      "prettier --write",
+      "proselint --config .common/proselint.json"
+    ],
     "**/*.(sh|sh.j2)": [
       "shellcheck"
+    ],
+    "**/*.toml": [
+      "check-toml"
     ],
     "**/*.xml": [
       "check-xml",

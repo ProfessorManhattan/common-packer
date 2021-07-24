@@ -3,8 +3,25 @@
 
 . "./.common/scripts/log.sh"
 
-log "Running `npm run lint-staged` to validate staged files"
-npm run lint-staged
-log "Running `task spelling` to check for possible spelling errors"
-task spelling
-success "Successfully validated the commit"
+if ! typeof task &> /dev/null; then
+  . "./.common/scripts/common.sh"
+  . "./.common/scripts/software.sh"
+  ensureTaskInstalled
+fi
+
+info "Performing various pre-commit tasks like autofixing, detecting private keys, etc."
+STAGED_FILES=$(git diff --cached --name-only)
+for FILE in "$STAGED_FILES"; do
+  if [ -f "$1" ]; then
+    task common:precommit -- "$FILE" &
+  fi
+done
+wait
+
+info "Linting and fixing the staged files with 'lint-staged'"
+task lint:lint-staged
+
+info "Reporting possible spelling errors in the staged files"
+task lint:spelling
+
+success "pre-commit hook finished"
