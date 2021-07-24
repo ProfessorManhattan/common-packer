@@ -57,8 +57,7 @@ tasks:
   galaxy-requirements:
     cmds:
       - . .venv/bin/activate
-      - ignore_error: true
-        cmd: |
+      - cmd: |
           if [ "${container:=}" != 'docker' ]; then
             if type ansible-galaxy &> /dev/null; then
               ansible-galaxy install -r requirements.yml --ignore-errors
