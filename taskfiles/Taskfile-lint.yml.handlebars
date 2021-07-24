@@ -53,7 +53,7 @@ tasks:
 {{/if}}
   formatting:
     deps:
-      - :common:nodejs-dependencies
+      - :npm:prettier
     desc: Lint formatting using Prettier
     summary: |
       $ Report formatting errors with Prettier
@@ -109,7 +109,7 @@ tasks:
 {{/if}}
   markdown-broken-links:
     deps:
-      - :common:npm-markdown-link-check
+      - :npm:markdown-link-check
     desc: Scan markdown files for broken links
     summary: |
       $ Report any broken links in the files that end with .md
@@ -177,7 +177,7 @@ tasks:
 {{/if}}
   scripts:
     deps:
-      - :common:npm-shellcheck
+      - :npm:shellcheck
     desc: Report possible errors in shell scripts
     summary: |
       $ Report possible errors in shell scripts using Shellcheck
@@ -237,12 +237,7 @@ tasks:
 
       For more information on YAML Lint, see: https://github.com/adrienverge/yamllint
     cmds:
-      - bash .common/log "Running 'yamllint -s .' to lint YML files"
       - yamllint -s .
-
-  _yaml:
-    cmds:
-      - task: yaml
     sources:
       - "**/*.yml"
 

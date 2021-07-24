@@ -11,8 +11,8 @@ tasks:
 
   formatting:
     deps:
-      - :common:npm-prettier
-      - :common:npm-prettier-package-json
+      - :npm:prettier
+      - :npm:prettier-package-json
     desc: Automatically format most files using Prettier
     summary: |
       $ Automatically format most files using Prettier
@@ -49,7 +49,7 @@ tasks:
       # synchronously
       - |
         for TEMPLATE in *template.json; do
-          bash .common/log log "Running 'packer fix $TEMPLATE' to update the Packer template"
+          t info "Running 'packer fix $TEMPLATE' to update the Packer template"
           packer fix "$TEMPLATE" > tmp-template.json
           mv tmp-template.json "$TEMPLATE"
         done
@@ -58,7 +58,7 @@ tasks:
 
   scripts:
     deps:
-      - :common:nodejs-dependencies
+      - :npm:shellcheck
     desc: (Experimental) Automatically apply fixes to .sh and .sh.j2 files using Shellcheck
     summary: |
       $ Automatically apply fixes to shell scripts using Shellcheck

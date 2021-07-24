@@ -5,7 +5,7 @@ tasks:
 {{#if dockerfile}}
   snyk-login:
     deps:
-      - :common:npm-snyk
+      - :npm:snyk
     env:
       SNYK_API_TOKEN:
         sh: snyk config get api
@@ -18,7 +18,7 @@ tasks:
 
   snyk:
     deps:
-      - :common:npm-snyk
+      - :npm:snyk
       - :software:jq
     desc: Analyze the Docker container for security vulnerabilities with Snyk (requires login)
     summary: |

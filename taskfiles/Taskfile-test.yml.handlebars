@@ -182,6 +182,8 @@ tasks:
 {{/if}}
 {{#if hbs.npm}}
   unit:
+    deps:
+      - :common:nodejs-dependencies
     cmds:
       - npm run test:unit
 

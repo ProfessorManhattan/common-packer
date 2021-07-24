@@ -1,134 +1,108 @@
 ---
 version: '3'
 
-vars:
-  TEMPLATE_FILE:
-    sh: if [ ! -z "\{{.CLI_ARGS}}" ]; then echo "\{{.CLI_ARGS}}"; else echo template.json; fi
-
 tasks:
-  all:
+  latestos:
     deps:
-      - :software:kvm
-      - :software:packer
-      - :software:parallels
-      - :software:virtualbox
-      - :software:vmware
-    desc: Build Packer images for all platforms (default setting uses `template.json`)
-    summary: |
-      $ Build Packer images for all virtualization platforms
-
-      This task begins by removing cached files that may interfere with the Packer build
-      process. It then runs `packer build template.json` if no arguments are passed. This
-      command will build Packer images for all the virtualization platforms specified in
-      the template file. The template file may include instructions for the following
-      virtualization platforms (and it is possible that it includes other ones that are
-      not listed below):
-        * Hyper-V   * Parallels    * VMWare
-        * KVM       * VirtualBox
-      
-      If you would like to build machine images with another template then you can pass the
-      template's file name as a parameter (see example below).
-
-      Example:
-      > task packer:all
-
-      Example using a template file named `another_template.json`:
-      > task packer:all -- another_template.json
+      - :common:python-requirements
+      - :software:jq
+    vars:
+      TAG:
+        sh: jq -r '.variables.latestos_tag' template.json
     cmds:
-      - task: prepare-packer
-      - packer build \{{.TEMPLATE_FILE}}
+      - . .venv/bin/activate
+      - |
+        if [ "${container:=}" != 'docker' ] && [[ '\{{.TAG}}' != 'macos' ]]; then
+          latestos \{{.TAG}}
+        fi
+    status:
+      - '[[ "\{{.TAG}}}" == "macos" ]] || [ "${container:=}" == "docker" ]'
+    preconditions:
+      - sh: test -f template.json
+        msg: "The `template.json` file is missing from the root of this project."
 
-  kvm:
+  populate-descriptions:
     deps:
-      - :software:kvm
-      - :software:packer
-    desc: Build a Packer image for KVM
-    summary: |
-      $ Build a Packer image for KVM
-
-      This task will build a machine image intended to be used by KVM environments. KVM
-      environments are generally only available on Linux (although, it is supposedly
-      possible to run KVM on macOS as well). By default, this task assumes the template
-      file is titled `template.json` and that the file is in the root of the project. If
-      you would like to use another template file then you can do so by passing the file
-      name as a parameter (see example below).
-
-      Example:
-      > task packer:kvm
-
-      Example using a template file named `another_template.json`
-      > task packer:kvm -- another_template.json
+      - :software:jq
+    vars:
+      DESCRIPTION_TEMPLATE:
+        sh: jq -r '.description_template' .variables.json
+      VERSION_DESCRIPTION:
+        sh: jq -r '.version_description' .variables.json
+    env:
+      TMP:
+        sh: mktemp
     cmds:
-      - task: prepare-packer
-      - packer build -only=qemu \{{.TEMPLATE_FILE}}
+      - jq --arg a "\{{.DESCRIPTION_TEMPLATE}}" --arg b "\{{.VERSION_DESCRIPTION}}" '.variables.description = $a | .variables.version_description = $b'
+          template.json > "$TMP"
+      - mv "$TMP" template.json
+    sources:
+      - template.json
 
-  parallels:
+  update-readme-platform:
+    cmds:
+      - |
+        if ! grep -q '"type": "\{{.TYPE}}"' template.json; then
+          if [[ '{{OS}}' == 'darwin' ]]; then
+            sed -i .bak '/SUPPORTED_OS_\{{.TYPE}}/d' README.md && rm README.md.bak
+          elif [[ '{{OS}}' == 'linux' ]]; then
+            sed -i '/SUPPORTED_OS_\{{.TYPE}}/d' README.md
+          fi
+        fi
+
+  update-readme:
+    cmds:
+      - task: update-readme-platform
+        vars:
+          TYPE: hyperv-iso
+      - task: update-readme-platform
+        vars:
+          TYPE: parallels-iso
+      - task: _update-readme-platform
+        vars:
+          TYPE: qemu
+      - task: _update-readme-platform
+        vars:
+          TYPE: virtualbox-iso
+      - task: _update-readme-platform
+        vars:
+          TYPE: vmware-iso
+
+  update-variables:
     deps:
-      - :software:packer
-      - :software:parallels
-    desc: Build a Packer image for Parallels
-    summary: |
-      $ Build a Packer image for Parallels
-
-      This task will build a machine image intended to be used by Parallels. Parallels
-      is only available for macOS. By default, this task assumes the template file is
-      titled `template.json` and that the file is in the root of the project. If you
-      would like to use another template file then you can do so by passing the file
-      name as a parameter (see example below).
-
-      Example:
-      > task packer:parallels
-
-      Example using a template file named `another_template.json`
-      > task packer:parallels -- another_template.json
+      - :software:jq
+    vars:
+      ISO_VERSION:
+        sh: jq -r '.variables.iso_version' template.json
+      MAJOR_VERSION:
+        sh: cut -d '.' -f 1 <<< \{{.ISO_VERSION}}
+      MINOR_VERSION:
+        sh: cut -d '.' -f 2 <<< \{{.ISO_VERSION}}
+    env:
+      TEMPLATE_JSON:
+        sh: jq -r '.' template.json
+      TMP:
+        sh: mktemp
     cmds:
-      - task: prepare-packer
-      - packer build -only=parallels-iso \{{.TEMPLATE_FILE}}
-
-  virtualbox:
-    deps:
-      - :software:packer
-      - :software:virtualbox
-    desc: Build a Packer image for VirtualBox
-    summary: |
-      $ Build a Packer image for VirtualBox
-
-      This task will build a machine image intended to be used by VirtualBox. By
-      default, this task assumes the template file is titled `template.json` and
-      that the file is in the root of the project. If you would like to use another
-      template file then you can do so by passing the file name as a parameter
-      (see example below).
-
-      Example:
-      > task packer:virtualbox
-
-      Example using a template file named `another_template.json`
-      > task packer:virtualbox -- another_template.json
-    cmds:
-      - task: prepare-packer
-      - packer build -only=virtualbox-iso \{{.TEMPLATE_FILE}}
-
-  vmware:
-    deps:
-      - :software:packer
-      - :software:vmware
-    desc: Build a Packer image for VMWare
-    summary: |
-      $ Build a Packer image for VMWare
-
-      This task will build a machine image intended to be used by VMWare. The image
-      build can be used by either VMWare Workstation (i.e. Linux, Windows) or by
-      VMWare Fusion (i.e. macOS). By default, this task assumes the template file is
-      titled `template.json` and that the file is in the root of the project. If you
-      would like to use another template file then you can do so by passing the file
-      name as a parameter (see example below).
-
-      Example:
-      > task packer:vmware
-
-      Example using a template file named `another_template.json`
-      > task packer:vmware -- another_template.json
-    cmds:
-      - task: prepare-packer
-      - packer build -only=vmware-iso \{{.TEMPLATE_FILE}}
-
+      - jq -S --arg templatejson "$TEMPLATE_JSON" '.template_json = ($templatejson | fromjson)' .variables.json > "$TMP"
+      - mv "$TMP" .variables.json
+      - |
+        if [[ '\{{OS}}' == 'darwin' ]]; then
+          sed -i .bak "s^MAJOR_VERSION^\{{.MAJOR_VERSION}}^g" .variables.json && rm .variables.json.bak
+          sed -i .bak "s^MINOR_VERSION^\{{.MINOR_VERSION}}^g" .variables.json && rm .variables.json.bak
+          sed -i .bak "s^ISO_VERSION^\{{.ISO_VERSION}}^g" .variables.json && rm .variables.json.bak
+        elif [[ '\{{OS}}' == 'linux' ]]; then
+          sed -i "s^MAJOR_VERSION^\{{.MAJOR_VERSION}}^g" .variables.json
+          sed -i "s^MINOR_VERSION^\{{.MINOR_VERSION}}^g" .variables.json
+          sed -i "s^ISO_VERSION^\{{.ISO_VERSION}}^g" .variables.json
+        fi
+    sources:
+      - template.json
+      - .variables.json
+    preconditions:
+      - sh: test -f template.json
+        msg: "A `template.json` file is not present. This project uses values stored in `template.json` to generate certain
+          meta artifacts. Please add a `template.json`. You can find an example of one in this repository:
+          https://gitlab.com/megabyte-labs/packer/ubuntu-desktop"
+      - sh: test -f .variables.json
+        msg: "The `.variables.json` file is missing!"

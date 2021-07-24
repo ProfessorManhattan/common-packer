@@ -61,7 +61,7 @@ tasks:
           rm miniconda.sh
           export PATH="$HOME/.local/miniconda/bin:$PATH"
           if grep -L '.local/miniconda/bin' "$HOME/.bash_profile"; then
-            bash .common/log info "Updating the '.bash_profile' file to include Miniconda Python 3 in the PATH environment variable"
+            t info "Updating the '.bash_profile' file to include Miniconda Python 3 in the PATH environment variable"
             echo -e '\nexport PATH=$HOME/.local/miniconda/bin:$PATH' >> "$HOME/.bash_profile"
           fi
         fi

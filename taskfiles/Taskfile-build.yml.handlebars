@@ -56,6 +56,8 @@ tasks:
 {{/if}}
 {{#if hbs.npm}}
   clean:
+    deps:
+      - :software:rsync
     desc: Remove temporary folders that might conflicts with builds
     vars:
       RANDOM_STRING:
@@ -170,12 +172,17 @@ tasks:
     deps: [slim-prettier, slim-sizes]
 
   slim-prettier:
+    deps:
+      - :npm:prettier
     cmds:
       - prettier --write slim.report.json
     sources:
       - slim.report.json
 
   slim-sizes:
+    deps:
+      - :software:docker
+      - :software:jq
     vars:
       PREVIOUS_SLIM_SIZE:
         sh: jq -r '.blueprint.slim_size' package.json
@@ -225,8 +232,7 @@ tasks:
         fi
       - t info "Building slim image named '\{{.IMAGE_NAME}}'"
       - docker-slim build --tag \{{.IMAGE_NAME}}:slim \{{.SLIM_COMMAND}} \{{.IMAGE_NAME}}:latest
-      - prettier --write slim.report.json
-      - task: slim-sizes
+      - task: slim-finish
     sources:
       - Dockerfile
       - package.json
