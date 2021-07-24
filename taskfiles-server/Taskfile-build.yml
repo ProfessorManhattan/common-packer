@@ -38,30 +38,6 @@ tasks:
       - task: prepare-packer
       - packer build {{.TEMPLATE_FILE}}
 
-  kvm:
-    deps:
-      - :software:kvm
-      - :software:packer
-    desc: Build a Packer image for KVM
-    summary: |
-      $ Build a Packer image for KVM
-
-      This task will build a machine image intended to be used by KVM environments. KVM
-      environments are generally only available on Linux (although, it is supposedly
-      possible to run KVM on macOS as well). By default, this task assumes the template
-      file is titled `template.json` and that the file is in the root of the project. If
-      you would like to use another template file then you can do so by passing the file
-      name as a parameter (see example below).
-
-      Example:
-      > task packer:kvm
-
-      Example using a template file named `another_template.json`
-      > task packer:kvm -- another_template.json
-    cmds:
-      - task: prepare-packer
-      - packer build -only=qemu {{.TEMPLATE_FILE}}
-
   parallels:
     deps:
       - :software:packer

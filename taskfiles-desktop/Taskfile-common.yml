@@ -50,23 +50,8 @@ tasks:
       - bash .common/log log "Initiating the commit dialog"
       - npm run commit -- --no-verify
 
-  markdown-link-check:
-    deps: [nodejs-dependencies]
-    desc: Scan markdown files for broken links
-    summary: |
-      $ Report any broken links in the files that end with .md
-
-      This task uses the npm package called `markdown-link-check` to scan all the links
-      and then report which ones are broken.
-
-      For more information on `markdown-link-check`, see the following page:
-      https://github.com/tcort/markdown-link-check
-    cmds:
-      - bash .common/log log "Checking for broken links in markdown files"
-      - npm run misc:markdown-links
-
   prepare-release:
-    deps: [nodejs-dependencies]
+    deps: [npm-standard-version]
     desc: Ensure the project has upstream changes, lint, and then update the version
     summary: |
       $ Prepare a new release
@@ -81,7 +66,7 @@ tasks:
       - task: :lint:all
       - task: :test:packer
       - task: :test:vagrant
-      - npm run version
+      - standard-version --no-verify
 
   requirements:
     desc: Ensure all the dependencies are installed (Node.js, Python, etc.)
@@ -165,9 +150,25 @@ tasks:
         msg: 'The package.json file appears to be missing!'
 
   nodejs-global-dependencies:
-    deps: [npm-hbs, npm-prettier, npm-prettier-package-json, npm-readme]
+    deps:
+      - npm-cspell
+      - npm-hbs
+      - npm-lint-staged
+      - npm-markdown-link-check
+      - npm-prettier
+      - npm-prettier-package-json
+      - npm-readme
+      - npm-shellcheck
+      - npm-standard-version
     status:
       - '[[ "${container:=}" == "docker" ]]'
+
+  npm-cspell:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: cspell
+          NPM_PACKAGE_BIN: cspell
 
   npm-install:
     deps:
@@ -189,8 +190,26 @@ tasks:
           NPM_PACKAGE: hbs-cli
           NPM_PACKAGE_BIN: hbs
 
+  npm-lint-staged:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: lint-staged
+          NPM_PACKAGE_BIN: lint-staged
+
+  npm-markdown-link-check:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: markdown-link-check
+          NPM_PACKAGE_BIN: markdown-link-check
+
   npm-prettier:
     cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: prettier-plugin-sh
+          NPM_PACKAGE_BIN: NO_BIN
       - task: npm-install
         vars:
           NPM_PACKAGE: prettier
@@ -210,12 +229,26 @@ tasks:
           NPM_PACKAGE: '@appnest/readme'
           NPM_PACKAGE_BIN: readme
 
+  npm-shellcheck:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: shellcheck
+          NPM_PACKAGE_BIN: shellcheck
+
   npm-snyk:
     cmds:
       - task: npm-install
         vars:
           NPM_PACKAGE: snyk
           NPM_PACKAGE_BIN: snyk
+
+  npm-standard-version:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: standard-version
+          NPM_PACKAGE_BIN: standard-version
 
   python-requirements:
     deps:
@@ -320,6 +353,7 @@ tasks:
 
   spelling:
     deps:
+      - npm-cspell
       - :software:git
       - :software:node
     desc: Checks for spelling errors in staged files
@@ -338,7 +372,7 @@ tasks:
       STAGED_FILES:
         sh: git diff --cached --name-only
     cmds:
-      - npx cspell --no-summary --no-progress --show-context --no-must-find-files --config .common/.cspell.json "$STAGED_FILES" || true
+      - cspell --no-summary --no-progress --show-context --no-must-find-files --config .common/.cspell.json "$STAGED_FILES" || true
     preconditions:
       - sh: 'git diff --cached --name-only'
         msg: 'Cannot perform a spell check because there are no staged files'

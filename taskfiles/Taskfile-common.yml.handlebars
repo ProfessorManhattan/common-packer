@@ -2,83 +2,6 @@
 version: '3'
 
 tasks:
-{{#if hbs.role}}
-  autopopulate-ansible-dependencies:
-    cmds:
-      - task: autopopulate-ansible-collection
-        vars:
-          KEY: chocolatey.chocolatey
-          VAL: '{"name": "chocolatey.chocolatey", "source": "https://galaxy.ansible.com"}'
-      - task: autopopulate-ansible-collection
-        vars:
-          KEY: community.general
-          VAL: '{"name": "community.general", "source": "https://galaxy.ansible.com"}'
-      - task: autopopulate-ansible-dependency
-        vars:
-          KEY: community.general.homebrew
-          ROLE: professormanhattan.homebrew
-          VAL: '{"role": "professormanhattan.homebrew", "when": "ansible_os_family == \"Darwin\""}'
-      - task: autopopulate-ansible-dependency
-        vars:
-          KEY: community.general.npm
-          ROLE: professormanhattan.nodejs
-          VAL: '{"role": "professormanhattan.nodejs"}'
-      - task: autopopulate-ansible-dependency
-        vars:
-          KEY: community.general.gem
-          ROLE: professormanhattan.ruby
-          VAL: '{"role": "professormanhattan.ruby"}'
-      - task: autopopulate-ansible-dependency
-        vars:
-          KEY: community.general.snap
-          ROLE: professormanhattan.snapd
-          VAL: '{"role": "professormanhattan.snapd", "when": "ansible_system == \"Linux\""}'
-
-  autopopulate-ansible-collection:
-    env:
-      COLLECTIONS:
-        sh: yq eval '.collections' requirements.yml
-      REFERENCES:
-        sh: grep -Ril "\{{.KEY}}" ./tasks || true
-    cmds:
-      - |
-        if [[ ! "$COLLECTIONS" =~ "\{{.KEY}}" ]] && [ "$REFERENCES" ]; then
-          yq eval -i -P '.collections = .collections + \{{.VAL}}' requirements.yml
-        fi
-    status:
-      - '[[ "$COLLECTIONS" =~ "\{{.KEY}}" ]] || [ ! "$REFERENCES" ]'
-
-  autopopulate-ansible-dependency:
-    env:
-      DEPENDENCIES:
-        sh: yq eval '.dependencies' meta/main.yml
-      REFERENCES:
-        sh: grep -Ril "\{{.KEY}}" ./tasks || true
-    cmds:
-      - |
-        if [[ ! "$DEPENDENCIES" =~ "\{{.ROLE}}" ]] && [ "$REFERENCES" ]; then
-          yq eval -i -P '.dependencies = .dependencies + \{{.VAL}}' meta/main.yml
-        fi
-    status:
-      - '[[ "$DEPENDENCIES" =~ "\{{.ROLE}}" ]] || [ ! "$REFERENCES" ]'
-
-  autopopulate-ansible-requirements:
-    env:
-      REFS:
-        sh: yq eval '.roles' requirements.yml
-      TMP:
-        sh: mktemp
-    cmds:
-      - yq eval -j '.dependencies' meta/main.yml > "$TMP"
-      - |
-        jq -rc '.[] .role' "$TMP" | while read ROLE_NAME; do
-          if [[ ! "$REFS" =~ "$ROLE_NAME" ]]; then
-            yq eval -i -P '.roles = .roles + {"name": env(ROLE_NAME)}' requirements.yml
-            (echo "---" && cat requirements.yml) > requirements.yml
-          fi
-        done
-
-{{/if}}
   clean:
     desc: Removes optional folders that are cached during various tasks
     summary: |
@@ -127,23 +50,8 @@ tasks:
       - bash .common/log log "Initiating the commit dialog"
       - npm run commit -- --no-verify
 
-  markdown-link-check:
-    deps: [nodejs-dependencies]
-    desc: Scan markdown files for broken links
-    summary: |
-      $ Report any broken links in the files that end with .md
-
-      This task uses the npm package called `markdown-link-check` to scan all the links
-      and then report which ones are broken.
-
-      For more information on `markdown-link-check`, see the following page:
-      https://github.com/tcort/markdown-link-check
-    cmds:
-      - bash .common/log log "Checking for broken links in markdown files"
-      - npm run misc:markdown-links
-
   prepare-release:
-    deps: [nodejs-dependencies]
+    deps: [npm-standard-version]
     desc: Ensure the project has upstream changes, lint, and then update the version
     summary: |
       $ Prepare a new release
@@ -162,7 +70,7 @@ tasks:
 {{#if hbs.vagrant}}
       - task: :test:vagrant
 {{/if}}
-      - npm run version
+      - standard-version --no-verify
 
   requirements:
     desc: Ensure all the dependencies are installed (Node.js, Python, etc.)
@@ -277,9 +185,28 @@ tasks:
         msg: "The package.json file appears to be missing!"
 
   nodejs-global-dependencies:
-    deps: [npm-hbs, npm-prettier, npm-prettier-package-json, npm-readme{{#if hbs.dockerfile}}, npm-snyk{{/if}}]
+    deps:
+      - npm-cspell
+      - npm-hbs
+      - npm-lint-staged
+      - npm-markdown-link-check
+      - npm-prettier
+      - npm-prettier-package-json
+      - npm-readme
+      - npm-shellcheck
+{{#if hbs.dockerfile}}
+      - npm-snyk
+{{/if}}
+      - npm-standard-version
     status:
       - '[[ "${container:=}" == "docker" ]]'
+
+  npm-cspell:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: cspell
+          NPM_PACKAGE_BIN: cspell
 
   npm-install:
     deps:
@@ -301,8 +228,26 @@ tasks:
           NPM_PACKAGE: hbs-cli
           NPM_PACKAGE_BIN: hbs
 
+  npm-lint-staged:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: lint-staged
+          NPM_PACKAGE_BIN: lint-staged
+
+  npm-markdown-link-check:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: markdown-link-check
+          NPM_PACKAGE_BIN: markdown-link-check
+
   npm-prettier:
     cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: prettier-plugin-sh
+          NPM_PACKAGE_BIN: NO_BIN
       - task: npm-install
         vars:
           NPM_PACKAGE: prettier
@@ -322,12 +267,26 @@ tasks:
           NPM_PACKAGE: '@appnest/readme'
           NPM_PACKAGE_BIN: readme
 
+  npm-shellcheck:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: shellcheck
+          NPM_PACKAGE_BIN: shellcheck
+
   npm-snyk:
     cmds:
       - task: npm-install
         vars:
           NPM_PACKAGE: snyk
           NPM_PACKAGE_BIN: snyk
+
+  npm-standard-version:
+    cmds:
+      - task: npm-install
+        vars:
+          NPM_PACKAGE: standard-version
+          NPM_PACKAGE_BIN: standard-version
 
   python-requirements:
     deps:
@@ -435,6 +394,7 @@ tasks:
 
   spelling:
     deps:
+      - npm-cspell
       - :software:git
       - :software:node
     desc: Checks for spelling errors in staged files
@@ -453,7 +413,7 @@ tasks:
       STAGED_FILES:
         sh: git diff --cached --name-only
     cmds:
-      - npx cspell --no-summary --no-progress --show-context --no-must-find-files --config .common/.cspell.json "$STAGED_FILES" || true
+      - cspell --no-summary --no-progress --show-context --no-must-find-files --config .common/.cspell.json "$STAGED_FILES" || true
     preconditions:
       - sh: "git diff --cached --name-only"
         msg: "Cannot perform a spell check because there are no staged files"
