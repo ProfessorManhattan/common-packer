@@ -7,7 +7,7 @@ tasks:
     deps:
       - formatting
       - packer
-      - shellcheck
+      - scripts
       - vagrant
 
   formatting:
