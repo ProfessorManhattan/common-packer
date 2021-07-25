@@ -77,6 +77,8 @@ tasks:
       - task:
         vars:
           FILE: .husky/prepare-commit-msg
+    status:
+      - '[ "${container:=}" == "docker" ]'
 
   husky-executable:
     cmds:
@@ -110,7 +112,7 @@ tasks:
       - package.json
       - package-lock.json
     status:
-      - test -d node_modules
+      - 'test -d node_modules || [ "${container:=}" == "docker" ]'
     preconditions:
       - sh: 'test -f package.json'
         msg: 'The package.json file appears to be missing!'
