@@ -16,10 +16,11 @@
   "type": "module",
   "scripts": {
     "clean": "task common:clean",
-    "commit": "git-cz",
+    "commit": "task common:commit",
     "fix:shellcheck": "find . -type d \\( -name .cache -o -name .common -o -name .git -o -name .husky -o -name .modules -o -name .task -o -name .venv -o -name node_modules -o -name venv \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 shellcheck -f diff | git apply",
-    "postinstall": "if [ -d .git ]; then husky install; fi && if [ -f .husky/pre-commit ]; then chmod 755 .husky/pre-commit; fi",
+    "info": "task --list",
     "lint:shellcheck": "find . -type d \\( -name .cache -o -name .common -o -name .git -o -name .husky -o -name .modules -o -name .task -o -name .venv -o -name node_modules -o -name venv \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 -r -n1 shellcheck",
+    "prepare": "bash .common/npm-prepare.js",
     "prepare-release": "task common:prepare-release",
     "requirements": "task common:requirements",
     "reset": "task common:reset",
@@ -35,9 +36,9 @@
   "devDependencies": {
     "@megabytelabs/prettier-config": "^1.0.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^6.0.0",
     "inquirer": "^6.5.2",
     "prettier-plugin-sh": "^0.6.1",
+    "remark-preset-lint-recommended": "^5.0.0",
     "signale": "^1.4.0"
   },
   "keywords": [
@@ -72,6 +73,7 @@
   ],
   "lint-staged": {
     "**/*": [
+      "blocklint --wordlist blacklist,slave,whitelist",
       "check-merge-conflict",
       "check-added-large-files",
       "check-symlinks",
@@ -79,6 +81,9 @@
     ],
     "**/*.(css|html|json|less|mjml|php|scss|sh|ts)": [
       "prettier --write"
+    ],
+    "**/*.(jpg|png)": [
+      "task image:compress --"
     ],
     "**/*.js": [
       "npx standard --fix",
@@ -90,6 +95,7 @@
     ],
     "**/*.md": [
       "prettier --write",
+      "remark",
       "proselint --config .common/proselint.json"
     ],
     "**/*.(sh|sh.j2)": [
@@ -126,6 +132,11 @@
     ]
   },
   "prettier": "@megabytelabs/prettier-config",
+  "remarkConfig": {
+    "plugins": [
+      "remark-preset-lint-recommended"
+    ]
+  },
   "standard-version": {
     "scripts": {
       "prerelease": "git add --all",

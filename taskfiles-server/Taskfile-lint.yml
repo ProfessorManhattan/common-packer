@@ -12,9 +12,20 @@ tasks:
     desc: Lint the project by running all the linters in parallel
     deps:
       - formatting
+      - markdown
       - packer
+      - private-keys
       - scripts
       - vagrant
+
+  commit:
+    deps:
+      - :common:nodejs-dependencies
+      - :npm:commitlint
+    cmds:
+      - commitlint --config .common/commitlint.config.js --edit "{{.CLI_ARGS}}"
+    status:
+      - '[[ "{{.CLI_ARGS}}" ]]'
 
   formatting:
     deps:
@@ -43,6 +54,61 @@ tasks:
       - :npm:lint-staged
     cmds:
       - lint-staged
+
+  gitleaks:
+    deps:
+      - :software:gitleaks
+    desc: Scans repository (including git history) for possible leaked keys
+    summary: |
+      $ Scan repository with Gitleaks
+
+      Find accidentally committed passwords, private keys, and API keys by scanning the repository with
+      'Gitleaks'.
+
+      Example of scanning current repository:
+      > task lint:gitleaks
+
+      Example of scanning a public git repository:
+      > task lint:gitleaks -- https://github.com/installdoc/windows12
+
+      For more information on 'Gitleaks', see: https://github.com/zricethezav/gitleaks
+    cmds:
+      - |
+        if [ -z "{{.CLI_ARGS}}" ]; then
+          gitleaks -p . -v
+        else
+          gitleaks --repo-url "{{.CLI_ARGS}}" -v
+        fi
+
+  markdown:
+    deps:
+      - :nodejs:dependencies
+      - :npm:remark
+    desc: Lint markdown files
+    summary: |
+      $ Lint markdown files
+
+      This task uses 'remark-lint' under the hood to provide markdown style recommendations.
+
+      Example scanning all markdown files:
+      > task lint:markdown
+
+      Example scanning single markdown file:
+      > task lint:markdown -- TEST.md
+
+      For more information on 'remark', see: https://github.com/remarkjs/remark
+
+      For more information on 'remark-lint', see: https://github.com/remarkjs/remark-lint
+    cmds:
+      - |
+        if [ -z "{{.CLI_ARGS}}" ]; then
+          find . -type d \( {{.IGNORE_FOLDERS}} \) -prune -o -type f \( -name \*.md \) -print0 |
+            xargs -0 -r -n1 remark
+        else
+          remark {{.CLI_ARGS}}
+        fi
+    sources:
+      - '**/*.md'
 
   markdown-broken-links:
     deps:
