@@ -22,7 +22,7 @@ tasks:
       - :common:nodejs-dependencies
       - :npm:commitlint
     cmds:
-      - commitlint --config .common/commitlint.config.cjs --edit "{{.CLI_ARGS}}"
+      - echo '{{.CLI_ARGS}}' | commitlint --config .common/commitlint.config.cjs
     status:
       - '[[ "{{.CLI_ARGS}}" ]]'
 
