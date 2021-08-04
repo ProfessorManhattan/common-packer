@@ -90,14 +90,16 @@
     ],
     "**/!(package).json": [
       "check-json",
-      "task fix:json --"
+      "task fix:json --",
+      "prettier --write"
     ],
     "**/*.md": [
-      "prettier --write",
-      "remark"
+      "remark",
+      "prettier --write"
     ],
     "**/*.(sh|sh.j2)": [
-      "shellcheck"
+      "shellcheck",
+      "prettier --write"
     ],
     "**/*.toml": [
       "check-toml"
@@ -109,6 +111,7 @@
     "**/*.yml": [
       "check-yaml",
       "yamllint -s",
+      "task fix:yml-dashes --",
       "prettier --write"
     ],
     "logo.png": [
@@ -121,7 +124,8 @@
       "prettier-package-json --write"
     ],
     "requirements.txt": [
-      "requirements-txt-fixer"
+      "requirements-txt-fixer",
+      "prettier --write"
     ],
     "**/*.{sh,sh.j2}": [],
     "scripts/*.custom.sh": [
