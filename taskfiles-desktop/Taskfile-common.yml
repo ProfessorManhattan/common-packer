@@ -136,6 +136,7 @@ tasks:
       - :npm:readme
       - :npm:remark
       - :npm:shellcheck
+      - :npm:standard
       - :npm:standard-version
     run: once
     status:
