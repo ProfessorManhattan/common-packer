@@ -4,6 +4,8 @@
 # @file .common/scripts/init.sh
 # @brief Imports log functions and installs [Task](https://github.com/go-task/task) if it is not installed
 
+set -eo pipefail
+
 . "./.common/scripts/log.sh"
 
 if ! typeof task &> /dev/null; then
