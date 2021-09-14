@@ -12,8 +12,8 @@
 
 set -eo pipefail
 
-export REPO_TYPE=""
-export REPO_SUBTYPE=""
+export REPO_TYPE="none"
+export REPO_SUBTYPE="desktop"
 
 # @description Ensures ~/.local/bin is in the PATH variable
 function ensureLocalPath() {
