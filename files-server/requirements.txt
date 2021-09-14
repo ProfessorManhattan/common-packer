@@ -1,4 +1,5 @@
 blocklint
 latestos
+pre-commit-hooks
 proselint
 yamllint
