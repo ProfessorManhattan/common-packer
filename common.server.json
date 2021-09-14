@@ -1,11 +1,1 @@
-{
-  "github_prefix": "packer-",
-  "hbs": {
-    "packer_server": true,
-    "packer": true,
-    "vagrant": true
-  },
-  "header_description_post": ".",
-  "header_description_pre": "A Packer VM server image project. Brought to you by  ",
-  "subgroup": "server"
-}
+{}

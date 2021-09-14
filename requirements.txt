@@ -1,4 +1,3 @@
 blocklint
-latestos
 proselint
 yamllint

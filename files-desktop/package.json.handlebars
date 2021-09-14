@@ -20,7 +20,7 @@
     "fix:shellcheck": "find . -type d \\( -name .cache -o -name .common -o -name .git -o -name .husky -o -name .modules -o -name .task -o -name .venv -o -name node_modules -o -name venv \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 shellcheck -f diff | git apply",
     "info": "task --list",
     "lint:shellcheck": "find . -type d \\( -name .cache -o -name .common -o -name .git -o -name .husky -o -name .modules -o -name .task -o -name .venv -o -name node_modules -o -name venv \\) -prune -o -type f \\( -name \\*.custom.sh -o -name \\*.custom.sh.j2 \\) -print0 | xargs -0 -r -n1 shellcheck",
-    "prepare": "bash .common/scripts/npm-prepare.sh",
+    "prepare": "task common:husky",
     "prepare-release": "task common:prepare-release",
     "requirements": "task common:requirements",
     "reset": "task common:reset",
@@ -37,10 +37,10 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@megabytelabs/prettier-config": "^2.0.0",
     "cz-conventional-changelog": "^3.3.0",
-    "inquirer": "^8.1.2",
-    "prettier-plugin-sh": "^0.7.1",
-    "remark-preset-lint-recommended": "^6.0.1",
-    "signale": "^1.4.0"
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-yml": "0.10.1",
+    "prettier-plugin-sh": "^0.7.1"
   },
   "keywords": [
     "accelerated",
@@ -96,7 +96,6 @@
       "prettier --write"
     ],
     "**/*.md": [
-      "remark",
       "prettier --write"
     ],
     "**/*.(sh|sh.j2)": [
@@ -114,6 +113,7 @@
       "check-yaml",
       "yamllint -s",
       "task fix:yaml:dashes --",
+      "task fix:yaml:order --",
       "prettier --write"
     ],
     "logo.png": [
@@ -141,11 +141,6 @@
     ]
   },
   "prettier": "@megabytelabs/prettier-config",
-  "remarkConfig": {
-    "plugins": [
-      "remark-preset-lint-recommended"
-    ]
-  },
   "standard-version": {
     "scripts": {
       "prerelease": "git add --all",
