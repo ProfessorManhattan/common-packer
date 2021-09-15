@@ -22,13 +22,6 @@
   },
   "github_prefix": "packer-",
   "group": "none",
-  "hbs": {
-    "ansible": false,
-    "dockerfile": false,
-    "playbook": false,
-    "python": false,
-    "yaml": false
-  },
   "json_top_keys": "variables,type",
   "license": "MIT",
   "link": {
@@ -77,7 +70,6 @@
     "twitter": "MegabyteLabs",
     "vagrant": "https://app.vagrantup.com"
   },
-  "repo": "[[ package.json .blueprint.repo - See CONTRIBUTING.md ]]",
   "repository": {
     "github": "",
     "gitlab": "",
