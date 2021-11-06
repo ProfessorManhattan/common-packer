@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "{{link.home}}"
 documentation = "{{docs.link}}"
 keywords = ["node", "python", "app"]
-include = ["CHANGELOG.md"]
+include = ["CHANGELOG.md", "LICENSE"]
 
 [tool.poetry.dependencies]
 
