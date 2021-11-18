@@ -32,8 +32,21 @@
     "@mblabs/eslint-config": "^1.0.61",
     "@mblabs/prettier-config": "^14.14.14",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "handlebars-helpers": "^0.10.0"
   },
+  "keywords": [
+    "packer",
+    "common",
+    "shared",
+    "files",
+    "virtualbox",
+    "vmware",
+    "kvm",
+    "parallels",
+    "vm",
+    "image"
+  ],
   "engines": {
     "node": ">=10"
   },
