@@ -13,12 +13,8 @@
     "workstation"
   ],
   "lint-staged": {
-    "*.template.json": [
-      "task packer:validate --"
-    ],
-    "Vagrantfile": [
-      "task vagrant:validate --"
-    ]
+    "*.template.json": ["task packer:validate --"],
+    "Vagrantfile": ["task vagrant:validate --"]
   },
   "standard-version": {
     "scripts": {

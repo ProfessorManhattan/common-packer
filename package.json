@@ -1,23 +1,24 @@
 {
   "private": false,
-  "name": "@mblabs/shared-common-files",
-  "version": "1.0.0",
-  "description": "Includes common files used across different types of common file repositories (e.g. Go, Python, etc.)",
+  "name": "@mblabs/common-packer",
+  "version": "0.0.1",
+  "description": "Repository that hosts common files for Packer projects",
   "license": "MIT",
   "author": "Brian Zalewski <brian@megabyte.space> (https://megabyte.space)",
   "homepage": "https://megabyte.space",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/megabyte-labs/common/shared.git"
+    "url": "git+https://github.com/ProfessorManhattan/common-packer.git"
   },
   "bugs": {
     "email": "help@megabyte.space",
-    "url": "https://gitlab.com/megabyte-labs/common/shared/-/issues"
+    "url": "https://gitlab.com/megabyte-labs/common/packer/-/issues"
   },
   "type": "module",
   "scripts": {
     "help": "task --list",
-    "start": "bash .start.sh"
+    "prepare": "task common:husky",
+    "start": "bash .config/start.sh"
   },
   "config": {
     "commitizen": {
@@ -29,35 +30,39 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^13.1.0",
-    "@mblabs/eslint-config": "^1.0.61",
+    "@mblabs/eslint-config": "^1.0.0",
     "@mblabs/prettier-config": "^14.14.14",
-    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
     "cz-conventional-changelog": "^3.3.0",
     "handlebars-helpers": "^0.10.0"
   },
   "keywords": [
-    "packer",
     "common",
-    "shared",
     "files",
-    "virtualbox",
-    "vmware",
+    "image",
     "kvm",
+    "megabytelabs",
+    "npm",
+    "package",
+    "packer",
     "parallels",
+    "professormanhattan",
+    "shared",
+    "virtualbox",
     "vm",
-    "image"
+    "vmware"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14.18.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "blueprint": {
     "description": "Repository that hosts common files for Packer projects",
-    "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
-    "name": "Packer Common",
     "group": "common",
+    "name": "Packer Common",
+    "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
     "repository": {
       "github": "https://github.com/ProfessorManhattan/common-packer",
       "gitlab": "https://gitlab.com/megabyte-labs/common/packer"
