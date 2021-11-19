@@ -22,7 +22,7 @@
     "help": "help@megabyte.space"
   },
   "github_prefix": "packer-",
-  "group": "packer",
+  "group": "common",
   "json_top_keys": "variables,type",
   "license": "MIT",
   "link": {

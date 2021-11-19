@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "private": "true",
   "name": "@mblabs/common-packer",
   "version": "0.0.1",
   "description": "Repository that hosts common files for Packer projects",
