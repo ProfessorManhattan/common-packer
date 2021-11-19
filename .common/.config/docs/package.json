@@ -1,5 +1,5 @@
 {
-  "private": false,
+  "private": "false",
   "name": "@mblabs/docs-packer",
   "version": "0.0.1",
   "description": "Documentation partials used to generate documentation for Packer projects",
