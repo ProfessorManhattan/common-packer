@@ -28,9 +28,11 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@mblabs/eslint-config": "^1.0.97",
     "@mblabs/prettier-config": "^14.14.14",
+    "@mblabs/release-config": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "cz-conventional-changelog": "^3.3.0",
-    "handlebars-helpers": "^0.10.0"
+    "handlebars-helpers": "^0.10.0",
+    "semantic-release": "^18.0.0"
   },
   "engines": {
     "node": ">=14.18.0"
@@ -54,10 +56,9 @@
     "compressed",
     "hyperv",
     "kvm",
+    "mblabs",
     "megabytelabs",
-    "npm",
     "optimized",
-    "package",
     "packer",
     "parallels",
     "professormanhattan",
@@ -115,10 +116,22 @@
     ]
   },
   "name": "{{#if customPackageName}}{{customPackageName}}{{else}}@{{profile.npmjs_organization}}/{{repository.prefix.github}}{{slug}}{{/if}}",
+  "optionalDependencies": {
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.0",
+    "signale": "^1.4.0"
+  },
   "prettier": "@mblabs/prettier-config",
   "private": true,
   "publishConfig": {
     "access": "{{npm_publish_config_access}}"
+  },
+  "release": {
+    "branches": [
+      "master",
+      "next"
+    ],
+    "extends": "@mblabs/release-config"
   },
   "repository": {
     "type": "git",
