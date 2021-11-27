@@ -1,7 +1,0 @@
-{
-  "docs": {
-    "link": "https://megabyte.space/docs/common/packer"
-  },
-  "github_prefix": "packer-",
-  "json_top_keys": "variables,type"
-}
