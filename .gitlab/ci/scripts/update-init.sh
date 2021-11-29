@@ -41,14 +41,15 @@ npm install --save-optional --ignore-scripts chalk inquirer signale string-break
 
 # @description Re-generate the Taskfile.yml if it has invalid includes
 echo "Ensuring Taskfile is properly configured"
-if ! task donothing &> /dev/null; then
+if ! task donothing &> /dev/null || continue; then
   curl -s https://gitlab.com/megabyte-labs/common/shared/-/raw/master/Taskfile.yml > Taskfile-shared.yml
   TMP="$(mktemp)"
   yq eval-all 'select(fileIndex==0).includes = select(fileIndex==1).includes | select(fileIndex==0)' Taskfile.yml Taskfile-shared.yml > "$TMP"
   mv "$TMP" Taskfile.yml
   rm Taskfile-shared.yml
   npm install --ignore-scripts
-  if ! task fix:eslint -- Taskfile.yml; then
+  echo "Trying to run ESLint on Taskfile.yml"
+  if ! task fix:eslint -- Taskfile.yml || continue; then
     curl -s https://gitlab.com/megabyte-labs/common/shared/-/raw/master/update/package-requirements.json > package-requirements.json
     if ! type jq &> /dev/null; then
       echo "ERROR: jq must be installed"
