@@ -22,14 +22,14 @@
 
 set -eo pipefail
 
-if [ "${container:=}" != 'docker' ] && type node &> /dev/null; then
+if [ "${container:=}" != 'docker' ] && type node &> /dev/null && [ -f './node_modules/signale/package.json' ]; then
   ENHANCED_LOGGING=true
 fi
 
 # @description Logs to the console by using the NPM 'signale' library
 # @example signale info "An informative log"
 function signale() {
-  node -e 'require("signale").'"$1"'({prefix: "'"${LOG_PREFIX:=}"'", message:"'"$2"'", suffix: "'"${LOG_SUFFIX:=}"'"})' 2> /dev/null
+  node -e 'require("node_modules/signale").'"$1"'({prefix: "'"${LOG_PREFIX:=}"'", message:"'"$2"'", suffix: "'"${LOG_SUFFIX:=}"'"})' 2> /dev/null
 }
 
 # @description Logs an error message
