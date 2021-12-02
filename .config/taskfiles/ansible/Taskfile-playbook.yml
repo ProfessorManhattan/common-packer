@@ -5,8 +5,6 @@ tasks:
   docs:
     deps:
       - :install:npm:leasot
-    vars:
-      DOC_IDS: '@binary,@brew,@cask,@chrome,@gem,@helm,@hostapp,@htpc,@npm,@pypi,@vscode'
     summary: |
       ```shell
       # @description Processes leasot data and returns .variables.json data including charts written in @appnest/readme format
@@ -17,12 +15,14 @@ tasks:
         ...
       }
       ```
+    vars:
+      DOC_IDS: '@binary,@brew,@cask,@chrome,@gem,@helm,@hostapp,@htpc,@npm,@pypi,@vscode'
     cmds:
       - |
         function populateChartVar() {
-          CHART="["
+          CHART='[["Package", "Description"],'
           jq --arg tag "$(echo $2 | tr '[a-z]' '[A-Z]')" -r '.[] | select(.tag == $tag) | .
-            | del(. ["file", "ref", "line", "tag"]) | .text' "$1" | while read COMMENT; do
+          | del(. ["file", "ref", "line", "tag"]) | .text' "$1" | while read COMMENT; do
             if [ "$CHART" != '[' ]; then
               CHART="${CHART},"
             fi
