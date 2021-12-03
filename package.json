@@ -83,7 +83,10 @@
     "title": "Common Packer Project Files"
   },
   "eslintConfig": {
-    "extends": "@mblabs/eslint-config"
+    "extends": "@mblabs/eslint-config",
+    "rules": {
+      "import/no-extraneous-dependencies": "off"
+    }
   },
   "funding": [
     {
