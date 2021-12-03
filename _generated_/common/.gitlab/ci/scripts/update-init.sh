@@ -11,10 +11,6 @@ if [ -n "$GITLAB_CI" ]; then
   git remote set-url origin "https://root:$GROUP_ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git"
   git config user.email "$GITLAB_CI_EMAIL"
   git config user.name "$GITLAB_CI_NAME"
-  git checkout "$CI_COMMIT_REF_NAME"
-  git pull origin "$CI_COMMIT_REF_NAME"
-elif git reset --hard HEAD &> /dev/null; then
-  git clean -fxd
   git checkout master
   git pull origin master
 fi
@@ -26,11 +22,20 @@ git clone --depth=1 https://gitlab.com/megabyte-labs/common/shared.git common-sh
 # @description Refresh taskfiles and GitLab CI files
 mkdir -p .config
 rm -rf .config/taskfiles
-cp -rf common-shared/common/.config/taskfiles .config/
-cp -rf common-shared/common/.config/scripts .config/
+if [[ "$OSTYPE" == 'darwin'* ]]; then
+  cp -rf common-shared/common/.config/taskfiles/ .config/
+  cp -rf common-shared/common/.config/scripts/ .config/
+else
+  cp -rf common-shared/common/.config/taskfiles .config/
+  cp -rf common-shared/common/.config/scripts .config/
+fi
 mkdir -p .gitlab
 rm -rf .gitlab/ci
-cp -rf common-shared/common/.gitlab/ci .gitlab/
+if [[ "$OSTYPE" == 'darwin'* ]]; then
+  cp -rf common-shared/common/.gitlab/ci/ .gitlab/
+else
+  cp -rf common-shared/common/.gitlab/ci .gitlab/
+fi
 
 # @description Ensure proper NPM dependencies are installed
 echo "Installing NPM packages"
@@ -119,7 +124,7 @@ fi
 
 # @description Commit and push the changes
 if [ -n "$GITLAB_CI" ]; then
-  task ci:commit
+  git add --all
 else
   task prepare
   task start
