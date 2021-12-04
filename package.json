@@ -71,6 +71,8 @@
   },
   "blueprint": {
     "description": "Repository that hosts common files for Packer projects",
+    "emoji_end": " 📦📦📦",
+    "emoji_start": "",
     "group": "common",
     "name": "Packer Common",
     "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
