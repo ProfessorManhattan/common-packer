@@ -80,6 +80,9 @@
       "github": "https://github.com/ProfessorManhattan/common-packer",
       "gitlab": "https://gitlab.com/megabyte-labs/common/packer"
     },
+    "profile": {
+      "npmjs_organization": "installdoc"
+    },
     "slug": "common-packer",
     "subgroup": "packer",
     "title": "Common Packer Project Files"
