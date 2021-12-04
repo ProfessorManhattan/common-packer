@@ -1,11 +1,11 @@
 <div align="center">
   <center>
-    <a href="{{ repository.group.packer }}/{{ slug }}" title="{{ variables.description }} GitLab page" target="_blank">
-      <img width="100" height="100" alt="{{ variables.description }} logo" src="./logo.png" />
+    <a href="{{ repository.github }}">
+      <img width="148" height="148" alt="{{ name }} logo" src="{{ repository.gitlab }}{{ repository.location.logo.gitlab }}" />
     </a>
   </center>
 </div>
 <div align="center">
-  <center><h1 align="center">Packer Template: {{ variables.description }}</h1></center>
-  <center><h4 style="color: #18c3d1;">A <a href="https://megabyte.space">Megabyte Labs</a> Packer Project</h4></center>
+  <center><h1 align="center">{{ docs.header_title_pre }}{{ title }}{{ docs.header_title_post }}</h1></center>
+  <center><h4 style="color: #18c3d1;">{{ docs.header_description_pre }}<a href="{{ link.home }}" target="_blank">{{ organization }}</a></h4>{{ docs.header_description_post }}</center>
 </div>

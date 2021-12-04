@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://megabyte.space"
 documentation = "https://megabyte.space/docs/common/packer"
-keywords = ["common", "files", "image", "kvm", "mblabs", "megabytelabs", "npm", "package", "packer", "parallels", "professormanhattan", "shared", "virtualbox", "vm", "vmware"]
+keywords = ["common", "files", "image", "kvm", "mblabs", "megabytelabs", "npm", "package", "packer", "parallels", "professormanhattan", "shared", "virtualbox", "vm", "vmware", "washingtondc"]
 include = ["CHANGELOG.md", "LICENSE"]
 classifiers = [
   "Development Status :: 4 - Beta",

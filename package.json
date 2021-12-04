@@ -1,6 +1,6 @@
 {
-  "private": true,
-  "name": "@mblabs/common-packer",
+  "private": false,
+  "name": "@installdoc/common-packer",
   "version": "0.0.1",
   "description": "Repository that hosts common files for Packer projects",
   "license": "MIT",
@@ -23,7 +23,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-emoji"
+      "path": "node_modules/cz-emoji-conventional"
     }
   },
   "dependencies": {},
@@ -50,7 +50,8 @@
     "shared",
     "virtualbox",
     "vm",
-    "vmware"
+    "vmware",
+    "washingtondc"
   ],
   "engines": {
     "node": ">=14.18.0"
@@ -65,19 +66,28 @@
     "group": "common",
     "name": "Packer Common",
     "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
+    "profile": {
+      "npmjs_organization": "installdoc"
+    },
     "repository": {
       "github": "https://github.com/ProfessorManhattan/common-packer",
       "gitlab": "https://gitlab.com/megabyte-labs/common/packer"
     },
-    "profile": {
-      "npmjs_organization": "installdoc"
-    },
     "slug": "common-packer",
     "subgroup": "packer",
-    "title": "Common Packer Project Files"
+    "title": "Common Packer Project Files",
+    "github_id": "R_kgDOGet06g",
+    "gitlab_project_id": "24794711",
+    "gitlab_group_id": "11097242"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "helpUrl": "https://megabyte.space/docs/contributing/commits"
   },
   "eslintConfig": {
-    "extends": "@mblabs/eslint-config",
+    "extends": "eslint-config-strict-mode",
     "rules": {
       "import/no-extraneous-dependencies": "off"
     }
@@ -114,7 +124,6 @@
       "task fix:json --"
     ],
     "**/*.sh": [
-      "task fix:shell --",
       "task lint:shell --"
     ],
     "**/*.toml": [
@@ -133,12 +142,12 @@
       "task image:compress --"
     ]
   },
-  "prettier": "@mblabs/prettier-config",
+  "prettier": "@washingtondc/prettier",
   "release": {
     "branches": [
       "master",
       "next"
     ],
-    "extends": "@mblabs/release-config"
+    "extends": "@washingtondc/release"
   }
 }
