@@ -64,7 +64,7 @@
     "emoji_end": " 📦📦📦",
     "emoji_start": "",
     "group": "common",
-    "name": "Packer Common",
+    "name": "Packer Common Files",
     "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
     "profile": {
       "npmjs_organization": "installdoc"
