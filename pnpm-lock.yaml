@@ -4,7 +4,7 @@ specifiers:
   '@washingtondc/development': ^1.0.2
   '@washingtondc/prettier': ^1.0.0
   '@washingtondc/release': ^0.0.2
-  eslint-config-strict-mode: ^1.0.1
+  eslint-config-strict-mode: ^1.0.0
   sleekfast: ^0.0.1
 
 devDependencies:
@@ -520,13 +520,6 @@ packages:
       regenerator-runtime: 0.13.9
     dev: true
 
-  /@babel/runtime/7.16.3:
-    resolution: {integrity: sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.9
-    dev: true
-
   /@babel/runtime/7.16.5:
     resolution: {integrity: sha512-TXWihFIS3Pyv5hzR7j6ihmeLkZfrXGxAr5UfSl8CHf+6q/wpiYDkUau0czckpYG8QmnCIuPpdLtuA9VmuGGyMA==}
     engines: {node: '>=6.9.0'}
@@ -596,7 +589,7 @@ packages:
       lodash: 4.17.21
       resolve-from: 5.0.0
       resolve-global: 1.0.0
-      yargs: 17.2.1
+      yargs: 17.3.0
     dev: true
 
   /@commitlint/config-conventional/15.0.0:
@@ -1281,7 +1274,7 @@ packages:
   /@octokit/types/2.16.2:
     resolution: {integrity: sha512-O75k56TYvJ8WpAakWwYRN8Bgu60KrmX0z1KqFp1kNiFNkgW+JW+9EBKZ+S33PU6SLvbihqd+3drvPxKK68Ee8Q==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
     dev: true
 
   /@octokit/types/6.34.0:
@@ -1624,7 +1617,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.3
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
       '@types/responselike': 1.0.0
     dev: true
 
@@ -1651,7 +1644,7 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
     dev: true
 
   /@types/http-cache-semantics/4.0.1:
@@ -1685,7 +1678,7 @@ packages:
   /@types/keyv/3.1.3:
     resolution: {integrity: sha512-FXCJgyyN3ivVgRoml4h94G/p3kY+u/B86La+QptcqJaWtBWtmc6TtkNfS40n9bIvyLteHh7zXOtgbobORKPbDg==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
     dev: true
 
   /@types/minimatch/3.0.5:
@@ -1694,10 +1687,6 @@ packages:
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
-    dev: true
-
-  /@types/node/16.11.10:
-    resolution: {integrity: sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==}
     dev: true
 
   /@types/node/16.11.12:
@@ -1715,7 +1704,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
     dev: true
 
   /@types/retry/0.12.1:
@@ -1745,7 +1734,7 @@ packages:
   /@types/yauzl/2.9.1:
     resolution: {integrity: sha512-A1b8SU4D10uoPjwb0lnHmmu8wZhR9d+9o2PKBQT2jU5YPTKsxac6M2qGAdY7VcL+dHHhARVUDmeg0rOrcd9EjA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
     dev: true
 
   /@typescript-eslint/eslint-plugin-tslint/5.7.0_eslint@8.4.1+tslint@6.1.3:
@@ -2171,7 +2160,7 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
     dependencies:
-      '@babel/runtime': 7.16.3
+      '@babel/runtime': 7.16.5
       async: 3.2.2
       chalk: 4.1.2
       didyoumean: 1.2.2
@@ -3280,7 +3269,7 @@ packages:
   /chrome-launcher/0.13.4:
     resolution: {integrity: sha512-nnzXiDbGKjDSK6t2I+35OAPBy5Pw/39bgkb/ZAFwMhwJbdYBp6aH+vW28ZgtjdU890Q7D+3wN/tB8N66q5Gi2A==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
       escape-string-regexp: 1.0.5
       is-wsl: 2.2.0
       lighthouse-logger: 1.3.0
@@ -5585,7 +5574,7 @@ packages:
       enquirer: 2.3.6
       eslint-scope: 5.1.1
       eslint-utils: 2.1.0
-      eslint-visitor-keys: 2.0.0
+      eslint-visitor-keys: 2.1.0
       espree: 7.3.0
       esquery: 1.4.0
       esutils: 2.0.3
@@ -5606,7 +5595,7 @@ packages:
       optionator: 0.9.1
       progress: 2.0.3
       regexpp: 3.2.0
-      semver: 7.3.2
+      semver: 7.3.5
       strip-ansi: 6.0.1
       strip-json-comments: 3.1.1
       table: 5.4.6
@@ -7798,7 +7787,7 @@ packages:
     resolution: {integrity: sha512-DKQ71M+0uwAG3QsUkeVgh6XREw/OkpnTfHfM+sdmxRjHvYZ8PlcMVF4ibsHQ1ckR63NROs68qUr1I0u6yPVePQ==}
     engines: {node: '>=10'}
     dependencies:
-      '@babel/runtime': 7.16.3
+      '@babel/runtime': 7.16.5
       chalk: 4.1.2
       pegjs: 0.10.0
     dev: true
@@ -9644,7 +9633,7 @@ packages:
   /parse5/3.0.3:
     resolution: {integrity: sha512-rgO9Zg5LLLkfJF9E6CCmXlSE4UVceloys8JrFqCcHloC3usd/kJCyPDwH2SOlzix2j3xaP9sUX3e8+kvkuleAA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 16.11.12
     dev: true
 
   /parse5/6.0.1:
@@ -10523,7 +10512,7 @@ packages:
     resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
     hasBin: true
     dependencies:
-      glob: 7.1.6
+      glob: 7.2.0
     dev: true
 
   /rimraf/3.0.2:
@@ -12241,7 +12230,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: true
 
   /widest-line/3.1.0:
@@ -12440,19 +12429,6 @@ packages:
   /yargs/16.2.0:
     resolution: {integrity: sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==}
     engines: {node: '>=10'}
-    dependencies:
-      cliui: 7.0.4
-      escalade: 3.1.1
-      get-caller-file: 2.0.5
-      require-directory: 2.1.1
-      string-width: 4.2.3
-      y18n: 5.0.8
-      yargs-parser: 20.2.9
-    dev: true
-
-  /yargs/17.2.1:
-    resolution: {integrity: sha512-XfR8du6ua4K6uLGm5S6fA+FIJom/MdJcFNVY8geLlp2v8GYbOXD4EB1tPNZsRn4vBzKGMgb5DRZMeWuFc2GO8Q==}
-    engines: {node: '>=12'}
     dependencies:
       cliui: 7.0.4
       escalade: 3.1.1
