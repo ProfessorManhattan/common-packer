@@ -63,6 +63,9 @@
     "description": "Repository that hosts common files for Packer projects",
     "emoji_end": " 📦📦📦",
     "emoji_start": "",
+    "github_id": "R_kgDOGet06g",
+    "gitlab_group_id": "11097242",
+    "gitlab_project_id": "24794711",
     "group": "common",
     "name": "Packer Common",
     "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
@@ -75,10 +78,7 @@
     },
     "slug": "common-packer",
     "subgroup": "packer",
-    "title": "Common Packer Project Files",
-    "github_id": "R_kgDOGet06g",
-    "gitlab_project_id": "24794711",
-    "gitlab_group_id": "11097242"
+    "title": "Common Packer Project Files"
   },
   "commitlint": {
     "extends": [
@@ -104,11 +104,7 @@
   ],
   "lint-staged": {
     "**/*": [
-      "blocklint --wordlist blacklist,slave,whitelist",
-      "check-merge-conflict",
-      "check-added-large-files",
-      "check-symlinks",
-      "destroyed-symlinks"
+      "task lint:any --"
     ],
     "**/*.(css|html|less|md|mjml|php|scss|sh|xml)": [
       "task fix:prettier --"
@@ -141,6 +137,14 @@
       "task image:resize -- 200 200",
       "task image:compress --"
     ]
+  },
+  "ntl": {
+    "descriptions": {
+      "help": "Display a list of tasks that can be run via the Taskfile.yml",
+      "prepare": "Hook, triggered by running npm install, that runs logic such as installing pre-commit hooks",
+      "repair": "Fixes basic issues in projects that are having trouble running basic commands like 'task start'",
+      "start": "Entrypoint for new developers that installs requirements and then runs 'task start'"
+    }
   },
   "prettier": "@washingtondc/prettier",
   "release": {

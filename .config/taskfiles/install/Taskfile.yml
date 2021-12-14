@@ -41,7 +41,7 @@ tasks:
       - :install:npm:cz-emoji
     run: once
     cmds:
-      - cmd: '{{.NPM_PROGRAM_LOCAL}} i --shamefully-hoist'
+      - cmd: '{{.NPM_PROGRAM_LOCAL}} i --shamefully-hoist --no-frozen-lockfile'
         ignore_error: true
       - task: modules:local:sync
     sources:
@@ -51,6 +51,7 @@ tasks:
     cmds:
       - |
         chmod +x .config/log
+        chmod +x .config/scripts/lib/semver-compare.sh
         for PATTERN in {{.NPM_KEEP_UPDATED}}; do
           find ./node_modules/$PATTERN -maxdepth 0 | while read PATHH; do
             if [ -f "$PATHH/package.json" ]; then

@@ -1,4 +1,5 @@
 {
+  "SPACE": "",
   "alt_badge_style": "flat-square",
   "author": {
     "email": "brian@megabyte.space",
@@ -9,6 +10,7 @@
   "autodoc_todo_description": "",
   "autodoc_variables_description": "",
   "badge_style": "for-the-badge",
+  "commit_help_url": "https://megabyte.space/docs/contributing/commit-guidelines",
   "company": "Megabyte LLC",
   "copyright": "2020-2021",
   "docker_label_authors": "Brian Zalewski <brian@megabyte.space>",
@@ -49,7 +51,7 @@
     " 🐴",
     " 👀",
     " 🎟",
-    "",
+    " 🎉🎉",
     "",
     "",
     "",

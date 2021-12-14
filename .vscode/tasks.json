@@ -1,540 +1,555 @@
 {
+  "version": "2.0.0",
   "tasks": [
     {
-      "command": "bash .config/scripts/vscode.sh && task ansible:playbook:environment:cli",
       "label": "(ansible:playbook:environment:cli): Prompts for which environment to use and then symlinks to it",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task ansible:playbook:environment:cli"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task ansible:playbook:find-missing",
       "label": "(ansible:playbook:find-missing): Find roles that are missing files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task ansible:playbook:find-missing"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task ansible:populate:dependencies",
       "label": "(ansible:populate:dependencies): Attempt to automatically populate `meta/main.yml` and `requirements.yml`",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task ansible:populate:dependencies"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task ansible:test:local",
       "label": "(ansible:test:local): Run the Ansible play on the local machine (or via WSL - see task summary)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task ansible:test:local"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task test:docker",
       "label": "(test:docker): Performs a full test, including a test for idempotency, on all available Linux systems using Docker",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task test:docker"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task test:e2e",
       "label": "(test:e2e): Runs a full E2E Molecule test for all supported operating systems",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task test:e2e"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task test:virtualbox",
       "label": "(test:virtualbox): Provisions a desktop VirtualBox VM and then runs a Molecule test",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task test:virtualbox"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task test:vagrant",
       "label": "(test:vagrant): Runs the playbook using Vagrant",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task test:vagrant"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task ci:github:actions:test",
       "label": "(ci:github:actions:test): Locally test the on-push GitHub Action event (only works for Linux containers)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task ci:github:actions:test"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:clean",
       "label": "(common:clean): Removes optional folders that are cached during various tasks",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:clean"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:code:count",
       "label": "(common:code:count): Display a chart detailing the lines of code for each language used",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:code:count"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:code:find:todo",
       "label": "(common:code:find:todo): Scan code base for TODOs and FIXMEs",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:code:find:todo"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:commit",
       "label": "(common:commit): Lint staged files, report spelling errors, and open a _required_ commit dialoge",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:commit"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:prepare-release",
       "label": "(common:prepare-release): Ensure the project has upstream changes, lint, and then update the version",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:prepare-release"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:requirements",
       "label": "(common:requirements): Ensure all the dependencies are installed (Node.js, Python, etc.)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:requirements"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:reset",
       "label": "(common:reset): Resets the project by removing all caches and updating the project",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:reset"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:reset-force",
       "label": "(common:reset-force): Aggressively reset the project (**WARNING** This will wipe uncommitted work)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:reset-force"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:shell",
       "label": "(common:shell): Start a terminal session using Docker with any Linux operating system",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:shell"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task common:update:man-page",
       "label": "(common:update:man-page): Build `man` page from the README.md file",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task common:update:man-page"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task update:modules",
       "label": "(update:modules): Ensure all submodules in the `.modules/` folder are updated",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task update:modules"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task update:services",
-      "label": "(update:services): Update elements of the repository that require API access",
-      "type": "shell"
-    },
-    {
-      "command": "bash .config/scripts/vscode.sh && task update",
       "label": "(update): Refresh the project with the latest upstream code and ensure blueprint data has propagated",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task update"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task docker:build",
       "label": "(docker:build): Build a regular Docker image and then generate a slim build from it",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task docker:build"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task docker:build:fat",
       "label": "(docker:build:fat): Build a Docker container from the Dockerfile",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task docker:build:fat"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task docker:build:slim",
       "label": "(docker:build:slim): Build a slim version of the Docker image",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task docker:build:slim"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:eslint",
       "label": "(fix:eslint): Fix JavaScript/TypeScript errors automatically",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:eslint"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:json",
       "label": "(fix:json): Alphabetically sort JSON",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:json"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:misc",
       "label": "(fix:misc): Perform miscellaneous fixes such as removing BOM and ensuring LF line endings",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:misc"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:packer",
       "label": "(fix:packer): Automatically fix and format Packer templates",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:packer"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:prettier",
       "label": "(fix:prettier): Automatically format most files using Prettier",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:prettier"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:python",
       "label": "(fix:python): Automatically format Python files using Black",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:python"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:shellcheck",
       "label": "(fix:shellcheck): (Experimental) Automatically apply fixes to .sh and .sh.j2 files using Shellcheck",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:shellcheck"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:xml",
       "label": "(fix:xml): Autofix XML files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:xml"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task fix:yaml",
       "label": "(fix:yaml): Autofix YML files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task fix:yaml"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task git:gitlab:group:exec",
       "label": "(git:gitlab:group:exec): Execute a shell script across all repositories in a group and commit the changes",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task git:gitlab:group:exec"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task git:remotes",
       "label": "(git:remotes): Configure the git remote `origin` to point to GitLab and the git remote `all` to point to GitLab and GitHub",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task git:remotes"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task git:remove:submodules",
       "label": "(git:remove:submodules): Remove all submodules in the current directory and optionally filter by RegEx",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task git:remove:submodules"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task image:compress",
+      "label": "(group:exec): Execute group commands on any group (including repositories in sub-groups)",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task group:exec"
+    },
+    {
       "label": "(image:compress): Compress JPG/PNG images via TinyPNG",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task image:compress"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task image:resize",
       "label": "(image:resize): Resize an image",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task image:resize"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task init",
       "label": "(init): Ensures project is initialized with upstream files and migrates pre-existing projects",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task init"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:all",
       "label": "(lint:all): Lint with all available linters",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:all"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:ansible",
       "label": "(lint:ansible): Lint Ansible projects using Ansible Lint",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:ansible"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:docker",
+      "label": "(lint:any): Generic linting of files for things like destroyed-symlinks, merge conflicts, etc.",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:any"
+    },
+    {
       "label": "(lint:docker): Lint Dockerfiles using Hadolint (requires Docker)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:docker"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:eslint",
       "label": "(lint:eslint): Lint with `eslint`",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:eslint"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:esprint:esprint",
       "label": "(lint:esprint:esprint): Lint with `eslint` across multiple threads",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:esprint:esprint"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:esprint:esprint:stop",
       "label": "(lint:esprint:esprint:stop): Stop the `esprint` process that is currently running",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:esprint:esprint:stop"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:markdown:markdown",
       "label": "(lint:markdown:markdown): Lint markdown files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:markdown:markdown"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:markdown:markdown:links",
       "label": "(lint:markdown:markdown:links): Scan markdown files for broken links",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:markdown:markdown:links"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:packer",
       "label": "(lint:packer): Validate the Packer templates ending with `template.json`",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:packer"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:prettier",
       "label": "(lint:prettier): Lint formatting using Prettier",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:prettier"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:prose:prose",
       "label": "(lint:prose:prose): Lint for English prose",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:prose:prose"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:python",
       "label": "(lint:python): Lint Python files using Flake8",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:python"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:shellcheck",
       "label": "(lint:shellcheck): Report possible errors in shell scripts",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:shellcheck"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:spelling",
       "label": "(lint:spelling): Checks for spelling errors in staged files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:spelling"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:toml",
       "label": "(lint:toml): Lint TOML files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:toml"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:vagrant",
       "label": "(lint:vagrant): Validate the Vagrantfile",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:vagrant"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:xml",
       "label": "(lint:xml): Lint XML files",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:xml"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task lint:yaml",
       "label": "(lint:yaml): Lint .yml files using YAML Lint",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task lint:yaml"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task nest:benchmark",
       "label": "(nest:benchmark): Initiate a web server benchmarking session (with `clinic`)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task nest:benchmark"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:build",
       "label": "(npm:build): Build the application",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:build"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:clean",
       "label": "(npm:clean): Remove temporary folders that might conflicts with builds",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:clean"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:cov:open",
       "label": "(npm:cov:open): Ensures the code coverage report is generated and opens it in a browser",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:cov:open"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:cov:upload",
       "label": "(npm:cov:upload): Uploads code coverage report to `codecov.io`",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:cov:upload"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:depcheck:dependencies",
       "label": "(npm:depcheck:dependencies): Remove unused dependencies",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:depcheck:dependencies"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:doc:html",
       "label": "(npm:doc:html): Generate TypeDoc HTML documentation",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:doc:html"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:doc:json",
       "label": "(npm:doc:json): Generate TypeDoc JSON documentation",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:doc:json"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:start",
       "label": "(npm:start): Run the application",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:start"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:start:inspect",
       "label": "(npm:start:inspect): Run the application in `watch` mode and open DevTools",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:start:inspect"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:start:prod",
       "label": "(npm:start:prod): Run the application in `production` mode",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:start:prod"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:start:prod:inspect",
       "label": "(npm:start:prod:inspect): Run the application in `production` and `watch` mode and open DevTools",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:start:prod:inspect"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:test",
       "label": "(npm:test): Run the unit tests for an NPM project",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:test"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:test:coverage",
       "label": "(npm:test:coverage): Generate code coverage assets",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:test:coverage"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:test:dashboard",
       "label": "(npm:test:dashboard): Run and manage test cases from a web interface (powered by `majestic`)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:test:dashboard"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:test:debug",
       "label": "(npm:test:debug): Debug tests in `watch` mode",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:test:debug"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:test:inspect",
       "label": "(npm:test:inspect): Debug tests with DevTools in `watch` mode",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:test:inspect"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task npm:typesync",
       "label": "(npm:typesync): Install missing type definitions",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task npm:typesync"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task packer:build:all",
       "label": "(packer:build:all): Build Packer images for all platforms (default setting uses `template.json`)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task packer:build:all"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task packer:build:kvm",
       "label": "(packer:build:kvm): Build a Packer image for KVM",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task packer:build:kvm"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task packer:build:parallels",
       "label": "(packer:build:parallels): Build a Packer image for Parallels",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task packer:build:parallels"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task packer:build:virtualbox",
       "label": "(packer:build:virtualbox): Build a Packer image for VirtualBox",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task packer:build:virtualbox"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task packer:build:vmware",
       "label": "(packer:build:vmware): Build a Packer image for VMWare",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task packer:build:vmware"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task prepare",
       "label": "(prepare): Prepares the project for the normal start command",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task prepare"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:android:beta",
       "label": "(publish:android:beta): Publishes Android app to Firebase beta channel",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:android:beta"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:android:release",
       "label": "(publish:android:release): Publishes Android app to Google Play",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:android:release"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:app:beta",
       "label": "(publish:app:beta): Publish a beta release of all the release targets",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:app:beta"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:app:release",
       "label": "(publish:app:release): Publish a production release of all the targets",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:app:release"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:brew:cask",
       "label": "(publish:brew:cask): Publishes a Homebrew Cask",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:brew:cask"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:brew:formula",
       "label": "(publish:brew:formula): Publishes a Homebrew Formula",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:brew:formula"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:chrome:release",
       "label": "(publish:chrome:release): Publishes Chrome extension",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:chrome:release"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:ios:beta",
       "label": "(publish:ios:beta): Publishes iOS app to Firebase beta channel",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:ios:beta"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:ios:release",
       "label": "(publish:ios:release): Publishes iOS app to iTunes",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:ios:release"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task publish:opera:release",
       "label": "(publish:opera:release): Publishes Opera extension",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task publish:opera:release"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task python:build",
       "label": "(python:build): Build the project",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:build"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task python:build:binary",
       "label": "(python:build:binary): Build standalone binary",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:build:binary"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task python:publish",
       "label": "(python:publish): Publish the project to PyPi.org",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:publish"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task python:requirementstxt",
       "label": "(python:requirementstxt): Generate the requirements.txt fallback file",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:requirementstxt"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task python:run",
       "label": "(python:run): Runs the project by calling `run.py`",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:run"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task python:test",
       "label": "(python:test): Runs tests with `pytest` after fixing and linting",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:test"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task security:bandit",
+      "label": "(scripts): Run and view descriptions for `npm scripts` via an interactive dialog",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task scripts"
+    },
+    {
       "label": "(security:bandit): Check for Python code security issues",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:bandit"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task security:dockle",
       "label": "(security:dockle): Analyze and lint the Docker container using Dockle",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:dockle"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task security:gitleaks",
       "label": "(security:gitleaks): Scans repository (including git history) for possible leaked keys",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:gitleaks"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task security:private-keys",
       "label": "(security:private-keys): Scan for private keys",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:private-keys"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task security:snyk",
       "label": "(security:snyk): Analyze the Docker container for security vulnerabilities with Snyk (requires login)",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:snyk"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task security:trivy",
       "label": "(security:trivy): Analyze the Docker container for security vulnerabilities with Trivy",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:trivy"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task start",
+      "label": "(services): Update elements of the repository that require API access",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task services"
+    },
+    {
       "label": "(start): Set up the project and refresh it with the latest changes",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task start"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task symlink:playbook",
       "label": "(symlink:playbook): Symlink all the roles in the roles/ folder to ~/.ansible/roles",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task symlink:playbook"
     },
     {
-      "command": "bash .config/scripts/vscode.sh && task symlink:role",
       "label": "(symlink:role): Symlink the current role to ~/.ansible/roles/.",
-      "type": "shell"
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task symlink:role"
     }
-  ],
-  "version": "2.0.0"
+  ]
 }

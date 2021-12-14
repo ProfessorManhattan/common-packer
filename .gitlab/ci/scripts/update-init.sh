@@ -11,8 +11,8 @@ if [ -n "$GITLAB_CI" ]; then
   git remote set-url origin "https://root:$GROUP_ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git"
   git config user.email "$GITLAB_CI_EMAIL"
   git config user.name "$GITLAB_CI_NAME"
+  git fetch --all
   git checkout master
-  git pull origin master
 fi
 
 # @description Clone shared files repository
@@ -36,6 +36,8 @@ if [[ "$OSTYPE" == 'darwin'* ]]; then
 else
   cp -rT common-shared/common/.gitlab/ci .gitlab/ci
 fi
+
+cp common-shared/common/.config/log .config/log
 
 # @description Ensure proper NPM dependencies are installed
 echo "Installing NPM packages"
