@@ -150,7 +150,7 @@ tasks:
     deps:
       - :install:modules:local
     cmds:
-      - node .config/scripts/prompts/molecule-desktop.js
+      - node .config/scripts/prompts/molecule/desktop.js
 
   molecule:virtualbox:matrix:
     deps:

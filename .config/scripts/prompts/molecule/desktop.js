@@ -1,7 +1,7 @@
 import inquirer from 'inquirer'
 import { execSync } from 'node:child_process'
-import { decorateSystem } from './lib/decorate-system.js'
-import { logInstructions, LOG_DECORATOR_REGEX } from './lib/log.js'
+import { decorateSystem } from '../lib/decorate-system.js'
+import { logInstructions, LOG_DECORATOR_REGEX } from '../lib/log.js'
 
 /**
  * Prompts the user for the operating system they wish to launch and test the
