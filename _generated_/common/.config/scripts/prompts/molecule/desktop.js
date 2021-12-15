@@ -31,7 +31,7 @@ async function promptForDesktop() {
  */
 async function run() {
   logInstructions(
-    'Ansible Molecule Test via VirtualBox',
+    'Desktop Ansible Molecule Test via VirtualBox',
     'Choose a desktop environment below to run the Ansible play on.' +
       ' After choosing, a VirtualBox VM will be created. Then, the Ansible play will run on the VM.' +
       ' After it is done, the VM will be left open for inspection. Please do get carried away' +
