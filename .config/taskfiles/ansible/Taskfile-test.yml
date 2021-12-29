@@ -1,6 +1,11 @@
 ---
 version: '3'
 
+vars:
+  MOLECULE_TEST_OPTIONS: ANSIBLE_STDOUT_CALLBACK=community.general.yaml
+    ANSIBLE_CALLBACKS_ENABLED="junit, ansible.posix.profile_tasks, ansible.posix.timer"
+    JUNIT_OUTPUT_DIR=".junit"
+
 tasks:
   local:
     desc: Run the Ansible play on the local machine (or via WSL - see task summary)
@@ -64,7 +69,7 @@ tasks:
           .config/log info 'Running full Docker Molecule test'
         fi
         EXIT_CODE=0
-        MOLECULE_GROUP="$SCENARIO" {{.PYTHON_HANDLE}}molecule test -s docker || EXIT_CODE=$?
+        {{.MOLECULE_TEST_OPTIONS}} MOLECULE_GROUP="$SCENARIO" {{.PYTHON_HANDLE}}molecule test -s docker || EXIT_CODE=$?
         if [ "$EXIT_CODE" != '0' ]; then
           .config/log error 'Molecule test finished with errors'
         else
@@ -80,7 +85,7 @@ tasks:
       - |
         .config/log info 'Running Docker Molecule test on containers in the `{{.CLI_ARGS}}` group'
         EXIT_CODE=0
-        MOLECULE_GROUP="{{.CLI_ARGS}}" {{.PYTHON_HANDLE}}molecule test -s docker || EXIT_CODE=$?
+        {{.MOLECULE_TEST_OPTIONS}} MOLECULE_GROUP="{{.CLI_ARGS}}" {{.PYTHON_HANDLE}}molecule test -s docker || EXIT_CODE=$?
         if [ "$EXIT_CODE" != '0' ]; then
           .config/log error 'The `{{.CLI_ARGS}}` Docker Molecule test finished with errors'
         else
@@ -107,7 +112,7 @@ tasks:
         fi
         .config/log info 'Piping results to `molecule/.results/{{.MOLECULE_DATE}}-$SCENARIO.txt` for compatibility chart data'
         EXIT_CODE=0
-        PY_COLORS=0 MOLECULE_GROUP="$SCENARIO" {{.PYTHON_HANDLE}}molecule test -s "$SCENARIO" 2>&1 | \
+        PY_COLORS=0 {{.MOLECULE_TEST_OPTIONS}} MOLECULE_GROUP="$SCENARIO" {{.PYTHON_HANDLE}}molecule test -s "$SCENARIO" 2>&1 | \
           tee "molecule/.results/{{.MOLECULE_DATE}}-$SCENARIO.txt" || EXIT_CODE=$?
         if [ "$EXIT_CODE" != '0' ]; then
           .config/log error 'There were errors while running the test - results are available at `molecule/.results/{{.MOLECULE_DATE}}-$SCENARIO.txt`'
@@ -261,7 +266,7 @@ tasks:
       - |
         .config/log info 'Running VirtualBox Molecule test on platforms in the `{{.CLI_ARGS}}` group'
         EXIT_CODE=0
-        MOLECULE_GROUP="{{.CLI_ARGS}}" {{.PYTHON_HANDLE}}molecule test || EXIT_CODE=$?
+        {{.MOLECULE_TEST_OPTIONS}} MOLECULE_GROUP="{{.CLI_ARGS}}" {{.PYTHON_HANDLE}}molecule test || EXIT_CODE=$?
         if [ "$EXIT_CODE" != '0' ]; then
           .config/log error 'Errors encountered while running the `{{.CLI_ARGS}}` VirtualBox Molecule test'
         else
@@ -308,7 +313,7 @@ tasks:
       - |
         .config/log info 'Running `{{.CLI_ARGS}}` VirtualBox Molecule converge play - this will leave the VirtualBox instance open for inspection'
         EXIT_CODE=0
-        MOLECULE_GROUP={{.CLI_ARGS}} {{.PYTHON_HANDLE}}molecule converge -s desktop || EXIT_CODE=$?
+        {{.MOLECULE_TEST_OPTIONS}} MOLECULE_GROUP={{.CLI_ARGS}} {{.PYTHON_HANDLE}}molecule converge -s desktop || EXIT_CODE=$?
         if [ "$EXIT_CODE" != '0' ]; then
           .config/log error 'Errors were encountered while running the `{{.CLI_ARGS}}` VirtualBox Molecule converge play'
         else

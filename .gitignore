@@ -41,6 +41,7 @@ htmlcov/
 Icon
 .idea/
 .jest-cache/
+.junit/
 *.launch
 /libpeerconnection.log
 local_settings.py
