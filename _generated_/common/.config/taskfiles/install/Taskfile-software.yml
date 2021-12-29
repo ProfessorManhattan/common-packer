@@ -3,19 +3,19 @@
 version: '3'
 
 tasks:
-  allure:
-    run: once
-    cmds:
-      - task: brew:formulae
-        vars:
-          FORMULAE: allure
-
   act:
     run: once
     cmds:
       - task: brew:formulae
         vars:
           FORMULAE: act
+
+  allure:
+    run: once
+    cmds:
+      - task: brew:formulae
+        vars:
+          FORMULAE: allure
 
   brew:
     deps:

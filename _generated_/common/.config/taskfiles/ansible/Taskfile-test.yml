@@ -199,6 +199,14 @@ tasks:
     cmds:
       - task: molecule:local:{{if .CLI_ARGS}}test{{else}}prompt{{end}}
 
+  molecule:local:prompt:
+    interactive: true
+    deps:
+      - :install:modules:local
+    cmds:
+      - node .config/scripts/prompts/molecule/local.js
+      - task: allure:report
+
   molecule:local:test:
     deps:
       - molecule:dependencies
@@ -213,14 +221,6 @@ tasks:
         else
           .config/log success 'The local Molecule test was successful!'
         fi
-
-  molecule:local:prompt:
-    interactive: true
-    deps:
-      - :install:modules:local
-    cmds:
-      - node .config/scripts/prompts/molecule/local.js
-      - task: allure:report
 
   molecule:ssh:
     desc: Runs a Molecule test over SSH
