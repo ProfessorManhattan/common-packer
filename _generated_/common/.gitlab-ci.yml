@@ -4,9 +4,9 @@ stages:
   - lint
 
 include:
-  - local: .gitlab/ci/lint/eslint.gitlab-ci.yml
-  - local: .gitlab/ci/lint/packer.gitlab-ci.yml
-  - local: .gitlab/ci/lint/prettier.gitlab-ci.yml
-  - local: .gitlab/ci/lint/shellcheck.gitlab-ci.yml
-  - local: .gitlab/ci/lint/yamllint.gitlab-ci.yml
-  - local: .gitlab/ci/update/project.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/eslint.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/packer.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/prettier.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/shellcheck.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/yamllint.gitlab-ci.yml
+  - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/update/project.gitlab-ci.yml
