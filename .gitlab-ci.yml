@@ -3,6 +3,7 @@ stages:
   - update
   - lint
   - deploy
+  - fargeee
 
 include:
   - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/eslint.gitlab-ci.yml
