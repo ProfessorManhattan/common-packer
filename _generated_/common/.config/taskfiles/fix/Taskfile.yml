@@ -193,6 +193,10 @@ tasks:
       `task fix:python -- myfile.py`
 
       For more information, see [Black's GitHub page](https://github.com/psf/black).
+    log:
+      start: Fixing Python with `black`
+      success: Fixed {{if .CLI_ARGS}}`{{.CLI_ARGS}}`{{else}}project{{end}} with `black`
+      error: Error while running `black` auto-fixer
     cmds:
       - |
         {{if .CLI_ARGS}}
@@ -234,6 +238,10 @@ tasks:
       `task fix:scripts -- myfile.sh`
 
       For more information, see [Shellcheck's GitHub page](https://github.com/koalaman/shellcheck).
+    log:
+      start: Running `shellcheck` auto-fixer
+      success: Autofixed {{if .CLI_ARGS}}`{{.CLI_ARGS}}`{{else}}project{{end}} with `shellcheck`
+      error: Encountered an error while linting with `shellcheck` on {{if .CLI_ARGS}}`{{.CLI_ARGS}}`{{else}}project{{end}}
     cmds:
       - |
         .config/log warn 'This is an experimental fix method - please manually inspect and test the scripts'
