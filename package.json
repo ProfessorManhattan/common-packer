@@ -152,6 +152,7 @@
   "prettier": "@washingtondc/prettier",
   "release": {
     "branches": [
+      "main",
       "next",
       {
         "name": "beta",
