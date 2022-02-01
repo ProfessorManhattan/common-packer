@@ -54,6 +54,7 @@ includes:
   publish:ios: ./.config/taskfiles/publish/Taskfile-ios.yml
   publish:menubar: ./.config/taskfiles/publish/Taskfile-menubar.yml
   publish:opera: ./.config/taskfiles/publish/Taskfile-opera.yml
+  publish:snap: ./.config/taskfiles/publish/Taskfile-snap.yml
   python: ./.config/taskfiles/python/Taskfile.yml
   python:test: ./.config/taskfiles/python/Taskfile-test.yml
   release: ./.config/taskfiles/release/Taskfile.yml

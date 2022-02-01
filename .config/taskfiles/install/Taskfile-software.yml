@@ -552,6 +552,15 @@ tasks:
     status:
       - type rsync &> /dev/null
 
+  snapcraft:
+    run: once
+    cmds:
+      - task: brew:formulae
+        vars:
+          FORMULAE: snapcraft
+    status:
+      - type snapcraft > /dev/null
+
   sshpass:
     run: once
     cmds:

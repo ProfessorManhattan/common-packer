@@ -34,4 +34,5 @@ tasks:
       start: Publishing compiled assets with GoReleaser
       success: Successfully published assets with GoReleaser!
     cmds:
+      - task: :publish:snap:register
       - goreleaser release --skip-publish --config {{.GORELEASER_CONFIG}} --rm-dist
