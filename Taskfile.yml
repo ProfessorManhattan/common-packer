@@ -126,8 +126,8 @@ profile: |
 tasks:
   build:
     deps:
-      - :install:software:jq
-      - :install:software:node
+      - install:software:jq
+      - install:software:node
     desc: Build the project
     summary: |
       # Build the Project
@@ -214,8 +214,8 @@ tasks:
 
   init:
     deps:
-      - :install:software:jq
-      - :install:software:yq
+      - install:software:jq
+      - install:software:yq
     desc: Runs the initialization script
     summary: |
       # Initialize the Project and Run the Full Update Sequence

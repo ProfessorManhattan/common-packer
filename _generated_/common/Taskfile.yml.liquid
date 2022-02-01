@@ -68,8 +68,8 @@ profile: |
 tasks:
   build:
     deps:
-      - :install:software:jq
-      - :install:software:node
+      - install:software:jq
+      - install:software:node
     desc: Build the project
     vars:
       NONINTERACTIVE_MISSING_BUILD_CMD: There must be a build command under `.scripts.build` in `package.json`!
@@ -183,8 +183,8 @@ tasks:
 
   init:
     deps:
-      - :install:software:jq
-      - :install:software:yq
+      - install:software:jq
+      - install:software:yq
     desc: Runs the initialization script
     summary: |
       # Initialize the Project and Run the Full Update Sequence

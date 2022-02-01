@@ -23,6 +23,8 @@ tasks:
 
   project-specific: 'true'
 
+  slug: 'true'
+
   subgroup: 'true'
 
   title: 'true'
