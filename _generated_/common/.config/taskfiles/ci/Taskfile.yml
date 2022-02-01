@@ -28,7 +28,8 @@ tasks:
     cmds:
       - |
         if [[ "$CI_COMMIT_REF_NAME" == 'synchronize' ]]; then
-          git checkout -q master
+          git checkout -b master || git checkout master
+          .config/log info 'Pulling latest changes from `origin/master`'
           git pull -q origin master
         else
           git checkout -q "$CI_COMMIT_REF_NAME"
@@ -42,7 +43,6 @@ tasks:
       error: Encountered error while pushing changes to master
       start: Bypassing git hooks and pushing changes to master (if there are any changes)
     cmds:
-      - task donothing
       - task: commit:config
       - git add --all
       - git diff --cached "*"
