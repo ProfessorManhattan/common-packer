@@ -16,7 +16,9 @@ if [ -n "$GITLAB_CI" ]; then
 fi
 
 mkdir -p .config/taskfiles/install
-curl -s https://gitlab.com/megabyte-labs/common/shared/-/raw/master/common/.config/taskfiles/install/Taskfile-python.yml > .config/taskfiles/install/Taskfile-python.yml
+curl -sSL https://gitlab.com/megabyte-labs/common/shared/-/raw/master/common/.config/taskfiles/install/Taskfile-python.yml > .config/taskfiles/install/Taskfile-python.yml
+mkdir -p .config/taskfiles/ci
+curl -sSL https://gitlab.com/megabyte-labs/common/shared/-/raw/master/common/.config/taskfiles/ci/Taskfile.yml > .config/taskfiles/ci/Taskfile.yml
 
 # @description Clone shared files repository
 rm -rf common-shared

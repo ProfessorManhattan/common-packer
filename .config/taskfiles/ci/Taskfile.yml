@@ -26,10 +26,10 @@ tasks:
       start: Pulling latest changes
       success: Successfully pulled latest changes
     cmds:
+      - git fetch --all
       - |
         if [[ "$CI_COMMIT_REF_NAME" == 'synchronize' ]]; then
-          git checkout -b master || git checkout master
-          .config/log info 'Pulling latest changes from `origin/master`'
+          git checkout -q master
           git pull -q origin master
         else
           git checkout -q "$CI_COMMIT_REF_NAME"
