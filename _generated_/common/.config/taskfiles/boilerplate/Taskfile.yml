@@ -44,6 +44,7 @@ tasks:
           node .config/scripts/prompts/package.js "$ALREADY_PRESENT"
         fi
       - task: update:taskfile
+      - task: prime:package
 
   clean:
     deps:

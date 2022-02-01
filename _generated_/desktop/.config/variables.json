@@ -268,11 +268,11 @@
       "wrangler": "https://gitlab.com/megabyte-labs/wrangler"
     }
   },
-  "scriptsBuild": "task donothing",
+  "scriptsBuild": "task packer:build:all",
   "scriptsHelp": "task --menu",
   "scriptsPrepare": "task common:husky",
   "scriptsStart": "bash start.sh",
-  "scriptsTest": "task donothing",
+  "scriptsTest": "task lint:packer",
   "sharp_instructions": [],
   "sponsorship": {
     "author": "Brian Zalewski",
