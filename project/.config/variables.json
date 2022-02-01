@@ -18,5 +18,7 @@
         "REPOSITORY_UPDATE": true
       }
     }
-  ]
+  ],
+  "scriptsBuild": "task packer:build:all",
+  "scriptsTest": "task lint:packer"
 }
