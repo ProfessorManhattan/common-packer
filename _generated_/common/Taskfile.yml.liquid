@@ -182,6 +182,9 @@ tasks:
       - task: git:gitlab:group:exec
 
   init:
+    deps:
+      - :install:software:jq
+      - :install:software:yq
     desc: Runs the initialization script
     summary: |
       # Initialize the Project and Run the Full Update Sequence
@@ -370,6 +373,8 @@ tasks:
       API keys be set. Generally, only project owners will use this task.
     cmds:
       - task: common:update:services
+    status:
+      - '[ -n "$GITLAB_CI" ] && [ "$REPOSITORY_UPDATE" != "true" ]'
 
   shell:
     desc: Start a terminal session using Docker with any Linux operating system
