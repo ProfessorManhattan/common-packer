@@ -68,8 +68,11 @@ profile: |
 tasks:
   build:
     deps:
+      - :install:software:jq
       - :install:software:node
     desc: Build the project
+    vars:
+      NONINTERACTIVE_MISSING_BUILD_CMD: There must be a build command under `.scripts.build` in `package.json`!
     summary: |
       # Build the Project
 
@@ -80,7 +83,12 @@ tasks:
       success: Successfully ran `npm run build`
       error: Encountered error while running `npm run build`
     cmds:
-      - npm run build
+      - |
+        if [ "$(jq '.scripts.build' package.json)" != 'null' ]; then
+          npm run build
+        else
+          [[ $- == *i* ]] && task prepare || (.config/log error '\{{.NONINTERACTIVE_MISSING_BUILD_CMD}}' && exit 1)
+        fi
 
   commit:
     deps:
@@ -423,6 +431,8 @@ tasks:
       - install:software:node
     interactive: true
     desc: Open an interactive dialog to select and run a Molecule test
+    vars:
+      NONINTERACTIVE_MISSING_TEST_CMD: There must be a `.scripts.test` definition in `package.json`!
     summary: |
       # Test the Project
 
@@ -441,4 +451,9 @@ tasks:
       5. Running the play over SSH on a remote target
       {{/eq}}
     cmds:
-      - npm run test
+      - |
+        if [ "$(jq '.scripts.test' package.json)" != 'null' ]; then
+          npm run test
+        else
+          [[ $- == *i* ]] && task prepare || (.config/log error '\{{.NONINTERACTIVE_MISSING_TEST_CMD}}' && exit 1)
+        fi
