@@ -1,17 +1,17 @@
 ---
+stages:
+  - update
+  - lint
+
 variables:
-  PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+  PIP_CACHE_DIR: '${CI_PROJECT_DIR}/.cache/pip'
 
 cache:
-  key: "${CI_JOB_NAME}"
+  key: '${CI_JOB_NAME}'
   paths:
     - .cache/pip
     - .pnpm-store
     - .venv
-
-stages:
-  - update
-  - lint
 
 include:
   - remote: https://gitlab.com/megabyte-labs/gitlab-ci/-/raw/master/lint/eslint.gitlab-ci.yml
