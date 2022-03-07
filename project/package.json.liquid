@@ -1,12 +1,13 @@
 {
   "scripts": {
     "build": "task packer:build",
+    "build:hyperv": "task packer:build:hyperv",
     "build:kvm": "task packer:build:kvm",
     "build:parallels": "task packer:build:parallels",
     "build:virtualbox": "task packer:build:virtualbox",
     "build:vmware": "task packer:build:vmware",
-    "start": "task vagrant:up",
-    "test": "task lint:packer"
+    "test": "task lint:packer",
+    "vagrant": "task vagrant:up"
   },
   "keywords": [
     "accelerated",
