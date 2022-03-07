@@ -23,4 +23,9 @@
   "lint-staged": {
     "*template.json": ["task fix:packer --", "task fix:json --", "task lint:packer --"]
   }
+  "eslintConfig": {
+    "rules": {
+      "json-schema-validator/no-invalid": "off"
+    }
+  }
 }
