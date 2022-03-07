@@ -63,7 +63,6 @@
   "keywords": [
     "accelerated",
     "compressed",
-    "hyperv",
     "kvm",
     "mblabs",
     "megabytelabs",
@@ -89,15 +88,15 @@
     "**/*": [
       "task lint:any --"
     ],
+    "**/*!(template).(json|webapp|webmanifest)": [
+      "task fix:json --"
+    ],
     "**/*.(bash|cfg|cgi|command|css|env|env.*|handlebars|hbs|html|less|fcgi|java|md|mdx|mjml|php|phtml|properties|reg|scss|tmpl|tmux|tool|tpl|zsh)": [
       "task fix:prettier --"
     ],
     "**/*.(cjs|js|jsx|mjs|ts|tsx)": [
       "task fix:js --",
       "task lint:js --"
-    ],
-    "**/*.(json|webapp|webmanifest)": [
-      "task fix:json --"
     ],
     "**/*.(yml|yaml)": [
       "task fix:yaml --",
@@ -133,15 +132,18 @@
       "task fix:xml --",
       "task lint:xml --"
     ],
-    "*.template.json": [
-      "task packer:validate --"
+    "*template.json": [
+      "task fix:packer --",
+      "task fix:json --",
+      "task lint:packer --"
     ],
     "Dockerfile": [
       "task fix:prettier --",
       "task lint:docker --"
     ],
     "Vagrantfile": [
-      "task vagrant:validate --"
+      "task fix:prettier --",
+      "task lint:vagrant"
     ],
     "logo.png": [
       "task image:resize -- 200 200",
@@ -204,19 +206,16 @@
     "url": "git+{{#if repository.github}}{{repository.github}}{{else}}https://github.com/{{profile.github}}/{{repository.prefix.github}}{{slug}}{{/if}}.git"
   },
   "scripts": {
-    "build": "{{{replace scriptsBuild scriptsReplaceThis scriptsReplaceWith}}}",
+    "build": "task packer:build",
+    "build:kvm": "task packer:build:kvm",
+    "build:parallels": "task packer:build:parallels",
+    "build:virtualbox": "task packer:build:virtualbox",
+    "build:vmware": "task packer:build:vmware",
     "help": "{{{replace scriptsHelp scriptsReplaceThis scriptsReplaceWith}}}",
     "prepare": "{{{replace scriptsPrepare scriptsReplaceThis scriptsReplaceWith}}}",
     "repair": "bash <(curl -sS https://install.doctor/repair)",
-    "start": "{{{replace scriptsStart scriptsReplaceThis scriptsReplaceWith}}}",
-    "test": "{{{replace scriptsTest scriptsReplaceThis scriptsReplaceWith}}}"
-  },
-  "standard-version": {
-    "scripts": {
-      "prebump": "jq -r '.variables.iso_version' template.json",
-      "prerelease": "git add --all",
-      "pretag": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && if git show-ref --tags v$PACKAGE_VERSION --quiet; then git tag -d v$PACKAGE_VERSION; fi"
-    }
+    "start": "task vagrant:up",
+    "test": "task lint:packer"
   },
   "type": "{{npm_type}}",
   "version": "{{version}}"
