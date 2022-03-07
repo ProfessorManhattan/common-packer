@@ -5,7 +5,8 @@
     "build:parallels": "task packer:build:parallels",
     "build:virtualbox": "task packer:build:virtualbox",
     "build:vmware": "task packer:build:vmware",
-    "test": "task donothing"
+    "start": "task vagrant:up",
+    "test": "task lint:packer"
   }
   "keywords": [
     "accelerated",
