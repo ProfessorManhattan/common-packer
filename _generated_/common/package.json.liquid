@@ -209,6 +209,7 @@
   },
   "scripts": {
     "build": "task packer:build",
+    "build:hyperv": "task packer:build:hyperv",
     "build:kvm": "task packer:build:kvm",
     "build:parallels": "task packer:build:parallels",
     "build:virtualbox": "task packer:build:virtualbox",
@@ -216,8 +217,9 @@
     "help": "{{{replace scriptsHelp scriptsReplaceThis scriptsReplaceWith}}}",
     "prepare": "{{{replace scriptsPrepare scriptsReplaceThis scriptsReplaceWith}}}",
     "repair": "bash <(curl -sS https://install.doctor/repair)",
-    "start": "task vagrant:up",
-    "test": "task lint:packer"
+    "start": "{{{replace scriptsStart scriptsReplaceThis scriptsReplaceWith}}}",
+    "test": "task lint:packer",
+    "vagrant": "task vagrant:up"
   },
   "type": "{{npm_type}}",
   "version": "{{version}}"
