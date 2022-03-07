@@ -1,8 +1,15 @@
 {
+  "scripts": {
+    "build": "task packer:build",
+    "build:kvm": "task packer:build:kvm",
+    "build:parallels": "task packer:build:parallels",
+    "build:virtualbox": "task packer:build:virtualbox",
+    "build:vmware": "task packer:build:vmware",
+    "test": "task donothing"
+  }
   "keywords": [
     "accelerated",
     "compressed",
-    "hyperv",
     "kvm",
     "optimized",
     "packer",
@@ -13,14 +20,6 @@
     "workstation"
   ],
   "lint-staged": {
-    "*.template.json": ["task packer:validate --"],
-    "Vagrantfile": ["task vagrant:validate --"]
-  },
-  "standard-version": {
-    "scripts": {
-      "prebump": "jq -r '.variables.iso_version' template.json",
-      "prerelease": "git add --all",
-      "pretag": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && if git show-ref --tags v$PACKAGE_VERSION --quiet; then git tag -d v$PACKAGE_VERSION; fi"
-    }
+    "*template.json": ["task fix:packer --", "task fix:json --", "task lint:packer --"]
   }
 }
