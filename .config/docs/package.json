@@ -1,42 +1,21 @@
 {
   "author": "Brian Zalewski <brian@megabyte.space> (https://megabyte.space)",
   "blueprint": {
-    "description": "Repository that hosts common files for Packer projects",
-    "emoji_end": " 📦📦📦",
-    "emoji_start": "",
-    "github_id": "R_kgDOGet06g",
-    "gitlab_group_id": "11097242",
-    "gitlab_project_id": "24794711",
-    "group": "common",
-    "name": "Packer Common",
-    "overview": "This repository is the upstream repository for Packer projects and their common files. Files that are shared amongst Packer projects are stored in this repository and synchronized via GitLab CI.",
-    "profile": {
-      "npmjs_organization": "installdoc"
-    },
     "repository": {
       "github": "https://github.com/ProfessorManhattan/common-packer",
       "gitlab": "https://gitlab.com/megabyte-labs/common/packer"
-    },
-    "slug": "common-packer",
-    "subgroup": "packer",
-    "title": "Common Packer Project Files"
+    }
   },
   "bugs": {
     "email": "help@megabyte.space",
     "url": "https://gitlab.com/megabyte-labs/common/packer/-/issues"
   },
   "changelog": {
-    "displayTypes": [
-      "feat",
-      "fix",
-      "perf",
-      "refactor",
-      "revert"
-    ],
+    "displayTypes": ["feat", "fix", "perf", "refactor", "revert"],
     "showAuthor": true
   },
   "commitlint": {
-    "extends": [],
+    "extends": ["@commitlint/config-conventional"],
     "helpUrl": "https://megabyte.space/docs/contributing/commits"
   },
   "config": {
@@ -59,10 +38,7 @@
     "node": ">=14.18.0"
   },
   "eslintConfig": {
-    "extends": "eslint-config-strict-mode",
-    "rules": {
-      "import/no-extraneous-dependencies": "warn"
-    }
+    "extends": "eslint-config-strict-mode"
   },
   "funding": [
     {
@@ -75,37 +51,37 @@
     }
   ],
   "homepage": "https://megabyte.space",
-  "keywords": [
-    "common",
-    "files",
-    "image",
-    "kvm",
-    "mblabs",
-    "megabytelabs",
-    "npm",
-    "package",
-    "packer",
-    "parallels",
-    "professormanhattan",
-    "shared",
-    "virtualbox",
-    "vm",
-    "vmware",
-    "washingtondc"
-  ],
+  "keywords": ["mblabs", "megabytelabs", "professormanhattan", "washingtondc"],
   "license": "MIT",
+  "lint-staged": {
+    "**/*": ["task lint:any --"],
+    "**/*.(bash|cfg|cgi|command|css|env|env.*|handlebars|hbs|html|less|fcgi|java|md|mdx|mjml|php|phtml|properties|reg|scss|tmpl|tmux|tool|tpl|zsh)": ["task fix:prettier --"],
+    "**/!(logo).(jpg|png)": ["task image:compress --"],
+    "**/*.(cjs|js|jsx|mjs|ts|tsx)": ["task fix:js --", "task lint:js --"],
+    "**/*!(template).(json|webapp|webmanifest)": ["task fix:json --"],
+    "**/*.go": ["task fix:go --", "task lint:go --"],
+    "**/*.md": ["task fix:markdown --", "task lint:spelling:markdown --"],
+    "**/*.py": ["task fix:python --", "task lint:python --"],
+    "**/*.php": ["task fix:php --", "task lint:php --"],
+    "**/*.sh": ["task fix:prettier --", "task fix:shell --", "task lint:shell --"],
+    "**/*.toml": ["task fix:toml --", "task fix:prettier --", "task lint:toml --"],
+    "**/*.xml": ["task fix:xml --", "task lint:xml --"],
+    "**/*.(yml|yaml)": ["task fix:yaml --", "task lint:yaml --"],
+    "(Brewfile|composer.lock|Gemfile|Gopkg.lock|Pipfile.lock)": ["task fix:prettier --"],
+    "logo.png": ["task image:resize -- 200 200", "task image:compress --"],
+    "Dockerfile": ["task fix:prettier --", "task lint:docker --"],
+    "Vagrantfile": ["task fix:prettier --", "task lint:vagrant"]
+  },
   "name": "@installdoc/common-packer",
   "ntl": {
     "descriptions": {
       "build": "Builds the project using the build command specified under scripts in package.json",
-      "bump": "Used to quickly build, increase the package.json version, and publish the package",
       "commit": "If unsure, use this task to commit your code so that it adheres to our commit rules",
       "fix": "Run auto-fixing with all available auto-fixers",
       "help": "Display the Bodega Taskfile.yml interactive help menu",
       "lint": "Lint the project with all available linters",
       "preload": "Preload the operating system with commonly used libraries and tools",
       "prepare": "A hook triggered by running npm install that runs logic such as installing pre-commit hooks",
-      "publish": "Publish the software to all supported channels using semantic-release",
       "release": "Publish the software to all supported channels using semantic-release",
       "repair": "Fixes basic issues in projects that are having trouble running basic commands like 'task start'",
       "start": "Entrypoint for new developers that installs requirements and then runs 'task start'",
@@ -118,40 +94,26 @@
   "pnpm": {
     "allowedVersions": {
       "@typescript-eslint/eslint-plugin": "5",
-      "eslint": "8",
       "typescript": "4"
     },
-    "neverBuiltDependencies": [
-      "core-js",
-      "core-js-pure",
-      "highlight.js"
-    ],
+    "neverBuiltDependencies": ["core-js", "core-js-pure", "highlight.js"],
     "peerDependencyRules": {
-      "ignoreMissing": [
-        "eslint",
-        "prettier"
-      ]
+      "ignoreMissing": ["eslint", "prettier"]
     }
   },
   "prettier": "prettier-config-sexy-mode",
   "private": false,
   "publishConfig": {
-    "@megabyte:registry": "https://gitlab.com/api/v4/projects/24794711/packages/npm/",
-    "access": "public"
+    "access": "public",
+    "@megabyte:registry": "https://gitlab.com/api/v4/projects/24794711/packages/npm/"
   },
   "release": {
     "branches": [
       "main",
       "master",
       "next",
-      {
-        "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
+      { "name": "beta", "prerelease": true },
+      { "name": "alpha", "prerelease": true }
     ],
     "extends": "semantic-release-config"
   },
@@ -161,7 +123,6 @@
   },
   "scripts": {
     "build": "bash start.sh && task donothing",
-    "bump": "npm run build && npm version patch --no-commit-hooks --no-git-tag-version --force && npm publish",
     "commit": "bash start.sh && task commit",
     "fix": "bash start.sh && task fix",
     "help": "bash start.sh && task --menu",
