@@ -334,3 +334,6 @@ install:npm:commitlint
 install:npm:commitlint
 install:npm:commitizen
 install:npm:husky
+install:npm:commitlint
+install:npm:commitizen
+install:npm:husky
