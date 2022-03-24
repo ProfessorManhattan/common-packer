@@ -34,7 +34,7 @@ container_scanning:
     - if: $CONTAINER_SCANNING_DISABLED
       when: never
     - if: $CI_COMMIT_BRANCH && $GITLAB_FEATURES =~ /\bcontainer_scanning\b/
-    - exists:
+      exists:
         - Dockerfile
 license_scanning:
   before_script:
@@ -57,12 +57,8 @@ license_scanning:
 gemnasium-dependency_scanning:
   before_script:
     - |
-      if [ -f local/package-lock.json ]; then
-        cp local/package-lock.json package-lock.json
-      fi
-    - |
-      if [ -f local/requirements.txt ]; then
-        cp local/requirements.txt requirements.txt
+      if [ -f local/yarn.lock ] && [ -f local/package-lock.json ]; then
+        rm local/yarn.lock
       fi
   rules:
     - if: $DO_CI == 'false'
@@ -355,7 +351,7 @@ sobelow-sast:
       when: never
     - if: $CI_COMMIT_BRANCH
       exists:
-        - 'mix.exs'
+        - mix.exs
 spotbugs-sast:
   rules:
     - if: $DO_CI == 'false'
