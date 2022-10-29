@@ -9,7 +9,7 @@ plugins:
   jscpd:
     enabled: true
     exclude_patterns:
-      - 'common/.config/taskfiles/'
+      - common/.config/taskfiles/
   proselint:
     enabled: true
   shellcheck:
